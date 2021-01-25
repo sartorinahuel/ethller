@@ -67,12 +67,11 @@ class PoolStatsPage extends StatelessWidget {
         stream: poolRepo.poolDataStream,
         builder: (context, snapshot) {
           final poolData = snapshot.data;
+          final poolHasRate = poolData.poolStats.hashRate / 1000000000000;
           if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(title: Text('Ethermin pool stats')),
-              body: Center(
-                  child:
-                      Text('Total Hashrate: ${poolData.poolStats.hashRate}')),
+              body: Center(child: Text('Total Hashrate: ${poolHasRate.toStringAsFixed(2)}')),
             );
           }
           return Scaffold(
