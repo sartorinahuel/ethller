@@ -71,7 +71,7 @@ class PoolStatsPage extends StatelessWidget {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(title: Text('Ethermin pool stats')),
-              body: Center(child: Text('Total Hashrate: ${poolHasRate.toStringAsFixed(2)}')),
+              body: Center(child: Text('Total Hashrate: ${poolHasRate.toStringAsFixed(2)} TH/s')),
             );
           }
           return Scaffold(
