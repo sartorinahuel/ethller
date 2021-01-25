@@ -33,24 +33,25 @@ class HomePage extends StatelessWidget {
 
             return Scaffold(
               appBar: AppBar(title: Text('Ethller')),
-              body: Center(
-                  child: Column(
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                      'El precio del BITCOIN es \$${bitconHistory.last.price.toStringAsFixed(2)}'),
-                  SizedBox(height: 40),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => PoolStatsPage(),
-                          ),
-                        );
-                      },
-                      child: Text('Pool Stats'))
+              Text(
+                  'El precio del BITCOIN es \$${bitconHistory.last.price.toStringAsFixed(2)}'),
+              SizedBox(height: 40, width: double.infinity),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => PoolStatsPage(),
+                      ),
+                    );
+                  },
+                  child: Text('Pool Stats'))
                 ],
-              )),
+              ),
             );
           }
 
@@ -66,9 +67,9 @@ class PoolStatsPage extends StatelessWidget {
     return StreamBuilder<PoolData>(
         stream: poolRepo.poolDataStream,
         builder: (context, snapshot) {
+          if (snapshot.hasData) {
           final poolData = snapshot.data;
           final poolHasRate = poolData.poolStats.hashRate / 1000000000000;
-          if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(title: Text('Ethermin pool stats')),
               body: Center(child: Text('Total Hashrate: ${poolHasRate.toStringAsFixed(2)} TH/s')),
