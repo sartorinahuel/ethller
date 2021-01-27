@@ -21,8 +21,9 @@ class _HeaderHomePageState extends State<HeaderHomePage> {
   bool isOpen = false;
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
     return AnimatedContainer(
-      height: isOpen ? 300 : 175,
+      height: isOpen ? 300 + topPadding : 175 + topPadding,
       width: double.infinity,
       padding: const EdgeInsets.only(top: 15),
       decoration: BoxDecoration(
@@ -52,31 +53,34 @@ class _HeaderHomePageState extends State<HeaderHomePage> {
                 ),
                 AnimatedContainer(
                   duration: Duration(milliseconds: 200),
-                  height: isOpen ? 155 : 30,
+                  height: isOpen ? 155 : 20,
                 ),
                 SelectorBar(
                   items: [
                     SelectorBarButton(
-                        title: 'General',
-                        onPressed: () async {
-                          Provider.of<HomePageSubPagesProvider>(context,
-                                  listen: false)
-                              .changePage = GeneralPage();
-                        }),
+                      title: 'General',
+                      onPressed: () async {
+                        Provider.of<HomePageSubPagesProvider>(context,
+                                listen: false)
+                            .changePage = GeneralPage();
+                      },
+                    ),
                     SelectorBarButton(
-                        title: 'Workers',
-                        onPressed: () async {
-                          Provider.of<HomePageSubPagesProvider>(context,
-                                  listen: false)
-                              .changePage = WorkersPage();
-                        }),
+                      title: 'Workers',
+                      onPressed: () async {
+                        Provider.of<HomePageSubPagesProvider>(context,
+                                listen: false)
+                            .changePage = WorkersPage();
+                      },
+                    ),
                     SelectorBarButton(
-                        title: 'Wallets',
-                        onPressed: () {
-                          Provider.of<HomePageSubPagesProvider>(context,
-                                  listen: false)
-                              .changePage = WalletPage();
-                        }),
+                      title: 'Wallets',
+                      onPressed: () {
+                        Provider.of<HomePageSubPagesProvider>(context,
+                                listen: false)
+                            .changePage = WalletPage();
+                      },
+                    ),
                   ],
                 ),
               ],

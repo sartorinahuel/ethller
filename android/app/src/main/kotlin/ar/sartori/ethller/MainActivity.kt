@@ -1,4 +1,4 @@
-package com.example.ethller
+package ar.sartori.ethller
 
 import io.flutter.embedding.android.FlutterActivity
 
