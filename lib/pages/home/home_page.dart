@@ -1,10 +1,11 @@
-import 'package:ethller/pages/home/provider/home_page_sub_pages_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:animate_do/animate_do.dart';
 
-import 'package:ethller/pages/home/widgets/header/header.dart';
 import 'package:provider/provider.dart';
+
+import 'package:ethller/pages/home/widgets/header/header.dart';
+import 'package:ethller/pages/home/provider/home_page_sub_pages_provider.dart';
 
 class HomePage extends StatelessWidget {
   @override

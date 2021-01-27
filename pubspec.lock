@@ -113,12 +113,19 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.5"
   ethller_api_interface:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "960f8babc9983ccdeb62a1f42ce97ab1f4ac9f97"
+      resolved-ref: "1937c1c503b789e752137ff6d9ed1b17c5519502"
       url: "https://github.com/sartorinahuel/ethller_api_interface.git"
     source: git
     version: "0.0.0"
@@ -136,6 +143,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.0-nullsafety.4"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.12.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -259,6 +273,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0-nullsafety.3"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1+1"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   pedantic:
     dependency: transitive
     description:

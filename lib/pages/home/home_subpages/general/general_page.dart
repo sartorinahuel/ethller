@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:animate_do/animate_do.dart';
 
+import 'package:ethller/widgets/common/charts/eth_exchange_chart/eth_exchange_chart.dart';
+
 class GeneralPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-     return Scaffold(
+    return Scaffold(
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        child: Center(child: Text('general page')),
+        child: Center(child: ExchangeChart('-l8Mn2pVlRs-p')),
       ),
     );
     // return SingleChildScrollView(
