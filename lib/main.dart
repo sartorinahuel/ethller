@@ -1,3 +1,4 @@
+import 'package:ethller/theme/theme_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ethller_api_interface/ethller_api_interface.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ethller',
+      theme: ThemeService.darkTheme,
       home: HomePage(),
       // home: WidgetTestPage(),
     );

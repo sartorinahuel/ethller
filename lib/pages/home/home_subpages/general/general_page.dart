@@ -8,11 +8,24 @@ class GeneralPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final topPadding = MediaQuery.of(context).padding.top;
     return Scaffold(
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        child: Center(child: ExchangeChart('-l8Mn2pVlRs-p')),
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            SizedBox(height: 185 + topPadding, width: double.infinity),
+            FadeIn(
+              duration: Duration(milliseconds: 300),
+              child: SlideInUp(
+                from: size.height - 100,
+                duration: Duration(milliseconds: 300),
+                child: ExchangeChart('-l8Mn2pVlRs-p'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
     // return SingleChildScrollView(
@@ -20,14 +33,7 @@ class GeneralPage extends StatelessWidget {
     //   child: Column(
     //     children: [
     //       SizedBox(height: 190),
-    //       FadeIn(
-    //         duration: Duration(milliseconds: 300),
-    //         child: SlideInUp(
-    //           from: size.height - 100,
-    //           duration: Duration(milliseconds: 300),
-    //           // child: EthExchangeRate(),
-    //         ),
-    //       ),
+
     //       FadeIn(
     //         delay: Duration(milliseconds: 100),
     //         duration: Duration(milliseconds: 300),
