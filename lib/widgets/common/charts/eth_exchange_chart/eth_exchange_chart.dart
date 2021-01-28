@@ -1,11 +1,11 @@
+import 'package:ethller/widgets/common/charts/eth_exchange_chart/bloc/chart_bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
 import 'package:ethller_api_interface/ethller_api_interface.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../linear_chart.dart';
 import 'chart_header.dart';
-import 'eth_chart_provider.dart';
 import 'range_selector.dart';
 
 class ExchangeChart extends StatelessWidget {
@@ -15,41 +15,17 @@ class ExchangeChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => EthChartProvider(),
-      child: Builder(
-        builder: (BuildContext context) {
-          return StreamBuilder<List<CoinHistory>>(
-              stream: coinHistoryRepo.oneWeekRangeCoinHistoriesListStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  // final testProv =
-                  //     Provider.of<EthChartProvider>(context).rangeName;
-                  // print(testProv);
-                  List<double> chartValues = [];
-                  var data = snapshot.data;
-                  // Filter selected coin´s histories
-                  for (var ch in data) {
-                    if (ch.coinId == coinId) {
-                      chartValues.add(ch.price);
-                      // print(ch.date);
-                    }
-                  }
-                  // print(chartValues.length);
-                  return ChartBox(chartValues);
-                }
-                return Center(child: CircularProgressIndicator());
-              });
-        },
-      ),
+    return BlocProvider(
+      create: (context) => ChartBloc(coinId)..add(ChartInitEvent()),
+      child: _ChartBox(coinId),
     );
   }
 }
 
-class ChartBox extends StatelessWidget {
-  final List<double> chartValues;
+class _ChartBox extends StatelessWidget {
+  final String coinId;
 
-  const ChartBox(this.chartValues);
+  const _ChartBox(this.coinId);
 
   @override
   Widget build(BuildContext context) {
@@ -64,21 +40,24 @@ class ChartBox extends StatelessWidget {
           Radius.circular(30),
         ),
       ),
-      //TODO connect with stream
-      child: 1 != 0.0
-          ? Column(
+      child: BlocBuilder<ChartBloc, ChartBlocState>(
+        builder: (BuildContext context, state) {
+          if (state is ChartDataState) {
+            return Column(
               children: [
                 ChartHeader(),
                 SizedBox(height: 10),
-                //TODO connect with stream
                 Chart(
-                  data: [...chartValues],
+                  data: state.chartValues,
                   color: const Color(0xff02d39a),
                 ),
-                RangeSelector()
+                RangeSelector(),
               ],
-            )
-          : Center(child: CircularProgressIndicator()),
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 }

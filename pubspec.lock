@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0-nullsafety.1"
+  bloc:
+    dependency: "direct main"
+    description:
+      name: bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -69,7 +76,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1937c1c503b789e752137ff6d9ed1b17c5519502"
+      resolved-ref: "1d261dbca3f3f0f39cbea765394a3b69cc77f2d9"
       url: "https://github.com/sartorinahuel/ethller_api_interface.git"
     source: git
     version: "0.0.0"
@@ -92,6 +99,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bloc:
+    dependency: "direct main"
+    description:
+      name: flutter_bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter

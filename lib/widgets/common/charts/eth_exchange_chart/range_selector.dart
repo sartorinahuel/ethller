@@ -1,8 +1,8 @@
 import 'package:ethller/widgets/common/buttons/companion_button.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'eth_chart_provider.dart';
+import 'bloc/chart_bloc.dart';
 
 class RangeSelector extends StatefulWidget {
   @override
@@ -14,8 +14,8 @@ class _RangeSelectorState extends State<RangeSelector> {
 
   @override
   Widget build(BuildContext context) {
-    final _ethChartProvider =
-        Provider.of<EthChartProvider>(context, listen: false);
+    // ignore: close_sinks
+    final _ethChartBloc = BlocProvider.of<ChartBloc>(context);
 
     return Padding(
       padding: const EdgeInsets.only(top: 5.0, left: 30, right: 30, bottom: 1),
@@ -28,8 +28,7 @@ class _RangeSelectorState extends State<RangeSelector> {
             onPressed: () {
               _selectedButton = 0;
               setState(() {});
-              // _ethChartProvider.setChange = widget.coin.changeDay;
-              _ethChartProvider.selectRange = Range.OneDay;
+              _ethChartBloc.add(ChartOneDayPeriodEvent());
             },
           ),
           CompanionButton(
@@ -38,8 +37,7 @@ class _RangeSelectorState extends State<RangeSelector> {
             onPressed: () {
               _selectedButton = 1;
               setState(() {});
-              // _ethChartProvider.setChange = widget.coin.changeWeek;
-              _ethChartProvider.selectRange = Range.OneWeek;
+              _ethChartBloc.add(ChartOneWeekPeriodEvent());
             },
           ),
           CompanionButton(
@@ -48,8 +46,7 @@ class _RangeSelectorState extends State<RangeSelector> {
             onPressed: () {
               _selectedButton = 2;
               setState(() {});
-              // _ethChartProvider.setChange = widget.coin.changeMonth;
-              _ethChartProvider.selectRange = Range.OneMonth;
+              _ethChartBloc.add(ChartOneMonthPeriodEvent());
             },
           ),
           CompanionButton(
@@ -58,18 +55,16 @@ class _RangeSelectorState extends State<RangeSelector> {
             onPressed: () {
               _selectedButton = 3;
               setState(() {});
-              // _ethChartProvider.setChange = widget.coin.changeYear;
-              _ethChartProvider.selectRange = Range.OneYear;
+              _ethChartBloc.add(ChartOneYearPeriodEvent());
             },
           ),
           CompanionButton(
-            text: '2Y',
+            text: '5Y',
             isSelected: _selectedButton == 4,
             onPressed: () {
               _selectedButton = 4;
               setState(() {});
-              // _ethChartProvider.setChange = widget.coin.changeFiveYears;
-              _ethChartProvider.selectRange = Range.TwoYears;
+              _ethChartBloc.add(ChartFiveYearsPeriodEvent());
             },
           ),
         ],
