@@ -26,7 +26,10 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
       yield ChartLoadingState();
       await getCoinsHistories();
       final List<double> list1 = [];
-      oneDayPeriod.forEach((element) => list1.add(num.parse(element.price).toDouble()));
+      oneDayPeriod.forEach((element) {
+        final number = num.parse(element.price).toDouble().toStringAsFixed(2);
+        return list1.add(num.parse(number).toDouble());
+      });
       yield ChartDataState(list1);
       add(ChartUpdateEvent());
     }
