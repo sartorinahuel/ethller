@@ -1,10 +1,16 @@
+import 'package:ethller_api_interface/ethller_api_interface.dart';
 import 'package:flutter/material.dart';
 
 class ChartHeader extends StatelessWidget {
-  final activeChange = 0.0;
+  final String coinId;
+  final double activeChange;
+  final num price;
+
+  const ChartHeader({Key key, this.coinId, this.activeChange, this.price}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Coin coin = coinRepo.coins.firstWhere((element) => element.uuid == coinId);
     return Padding(
       padding: const EdgeInsets.only(right: 30, left: 15),
       child: Row(
@@ -17,7 +23,7 @@ class ChartHeader extends StatelessWidget {
           ),
           SizedBox(width: 10),
           Text(
-            'ETH - USD',
+            '${coin.symbol} - USD',
             style: TextStyle(
               color: Colors.white,
             ),
@@ -29,8 +35,7 @@ class ChartHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    //TODO connect with stream
-                    '1354.23.-',
+                    '\$${price.toStringAsFixed(3)}.-',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -56,9 +61,7 @@ class ChartHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Icon(
-                      activeChange > 0
-                          ? Icons.arrow_upward
-                          : Icons.arrow_downward,
+                      activeChange > 0 ? Icons.arrow_upward : Icons.arrow_downward,
                       color: Colors.white,
                       size: 12,
                     ),

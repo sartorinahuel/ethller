@@ -45,7 +45,7 @@ class _ChartBox extends StatelessWidget {
           if (state is ChartDataState) {
             return Column(
               children: [
-                ChartHeader(),
+                ChartHeader(coinId: coinId, price: state.chartValues.last, activeChange: 0.0),
                 SizedBox(height: 10),
                 Chart(
                   data: state.chartValues,
