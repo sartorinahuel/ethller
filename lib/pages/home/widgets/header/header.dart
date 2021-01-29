@@ -45,40 +45,31 @@ class _HeaderHomePageState extends State<HeaderHomePage> {
                   width: double.infinity,
                   child: Text(
                     'Stats',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.white, fontSize: 35, fontWeight: FontWeight.bold),
                   ),
                 ),
                 AnimatedContainer(
                   duration: Duration(milliseconds: 200),
-                  height: isOpen ? 155 : 20,
+                  height: isOpen ? 155 : 30, //poner 40 aca
                 ),
                 SelectorBar(
                   items: [
                     SelectorBarButton(
                       title: 'General',
                       onPressed: () async {
-                        Provider.of<HomePageSubPagesProvider>(context,
-                                listen: false)
-                            .changePage = GeneralPage();
+                        Provider.of<HomePageSubPagesProvider>(context, listen: false).changePage = GeneralPage();
                       },
                     ),
                     SelectorBarButton(
                       title: 'Workers',
                       onPressed: () async {
-                        Provider.of<HomePageSubPagesProvider>(context,
-                                listen: false)
-                            .changePage = WorkersPage();
+                        Provider.of<HomePageSubPagesProvider>(context, listen: false).changePage = WorkersPage();
                       },
                     ),
                     SelectorBarButton(
                       title: 'Wallets',
                       onPressed: () {
-                        Provider.of<HomePageSubPagesProvider>(context,
-                                listen: false)
-                            .changePage = WalletPage();
+                        Provider.of<HomePageSubPagesProvider>(context, listen: false).changePage = WalletPage();
                       },
                     ),
                   ],
@@ -111,8 +102,7 @@ class _HeaderHomePageState extends State<HeaderHomePage> {
                               setState(() {
                                 isOpen = !isOpen;
                               });
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => AddWalletPage()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddWalletPage()));
                             },
                             child: Text(
                               'Add Wallet',
@@ -136,8 +126,7 @@ class _HeaderHomePageState extends State<HeaderHomePage> {
                               setState(() {
                                 isOpen = !isOpen;
                               });
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SettingsPage()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
                             },
                             child: Text(
                               'Settings',
