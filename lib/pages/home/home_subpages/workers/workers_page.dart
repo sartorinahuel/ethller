@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:ethller/pages/pool/pool_detail_page.dart';
 import 'package:ethller/widgets/common/other/custom_container.dart';
 import 'package:ethller/widgets/common/other/workers_summary.dart';
 import 'package:flutter/material.dart';
@@ -32,15 +33,22 @@ class WorkersPage extends StatelessWidget {
                 delay: Duration(milliseconds: 100),
                 from: size.height - 100,
                 duration: Duration(milliseconds: 300),
-                child: CustomContainer(
-                  padding: const EdgeInsets.all(0),
-                  height: 60,
-                  width: size.width,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Center(
-                    child: Text(
-                      'Pool statistics',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PoolStatsPage(),
+                    ),
+                  ),
+                  child: CustomContainer(
+                    padding: const EdgeInsets.all(0),
+                    height: 60,
+                    width: size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Center(
+                      child: Text(
+                        'Pool statistics',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
