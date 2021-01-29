@@ -43,9 +43,10 @@ class _ChartBox extends StatelessWidget {
       child: BlocBuilder<ChartBloc, ChartBlocState>(
         builder: (BuildContext context, state) {
           if (state is ChartDataState) {
+            final double avgChange = (state.chartValues.last - state.chartValues.first) * 100 / state.chartValues.first;
             return Column(
               children: [
-                ChartHeader(coinId: coinId, price: state.chartValues.last, activeChange: 0.0),
+                ChartHeader(coinId: coinId, price: state.chartValues.last, activeChange: avgChange),
                 SizedBox(height: 10),
                 Chart(
                   data: state.chartValues,

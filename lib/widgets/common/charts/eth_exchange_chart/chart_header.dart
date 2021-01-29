@@ -35,7 +35,7 @@ class ChartHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '\$${price.toStringAsFixed(3)}.-',
+                    '\$ ${price.toStringAsFixed(2)}.-',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class ChartHeader extends StatelessWidget {
                       size: 12,
                     ),
                     Text(
-                      '$activeChange %',
+                      '${activeChange.toStringAsFixed(2)} %',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

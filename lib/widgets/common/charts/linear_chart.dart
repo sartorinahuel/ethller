@@ -15,9 +15,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<FlSpot> dots = List<FlSpot>.generate(
-        data.length, (index) => FlSpot(index.toDouble(), data[index]));
-    final reducer = dots.length.toDouble() > 182 ? 20 : 10;
+    List<FlSpot> dots = List<FlSpot>.generate(data.length, (index) => FlSpot(index.toDouble(), data[index]));
     return Container(
       height: 145,
       width: double.infinity,
@@ -28,7 +26,7 @@ class Chart extends StatelessWidget {
             titlesData: FlTitlesData(show: false),
             borderData: FlBorderData(show: false),
             minX: 0,
-            maxX: dots.length.toDouble() + reducer,
+            maxX: dots.length.toDouble(),
             minY: data.reduce(min),
             maxY: data.reduce(max),
             lineTouchData: LineTouchData(
