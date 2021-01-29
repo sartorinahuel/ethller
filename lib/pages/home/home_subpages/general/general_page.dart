@@ -1,4 +1,5 @@
 import 'package:ethller/widgets/common/other/payments_summary.dart';
+import 'package:ethller/widgets/common/other/wallet_summary.dart';
 import 'package:ethller/widgets/common/other/workers_summary.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +54,7 @@ class GeneralPage extends StatelessWidget {
                 delay: Duration(milliseconds: 500),
                 from: size.height - 100,
                 duration: Duration(milliseconds: 300),
-                // child: WalletSummary(),
+                child: WalletSummary(),
               ),
             ),
           ],
