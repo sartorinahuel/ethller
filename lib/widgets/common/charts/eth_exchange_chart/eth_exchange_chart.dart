@@ -1,7 +1,6 @@
 import 'package:ethller/widgets/common/charts/eth_exchange_chart/bloc/chart_bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ethller_api_interface/ethller_api_interface.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../linear_chart.dart';
@@ -11,14 +10,11 @@ import 'range_selector.dart';
 class ExchangeChart extends StatelessWidget {
   final String coinId;
 
-  const ExchangeChart(this.coinId);
+  const ExchangeChart({Key key, this.coinId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ChartBloc(coinId)..add(ChartInitEvent()),
-      child: _ChartBox(coinId),
-    );
+    return _ChartBox(coinId);
   }
 }
 

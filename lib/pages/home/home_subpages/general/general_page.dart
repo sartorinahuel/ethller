@@ -24,7 +24,7 @@ class GeneralPage extends StatelessWidget {
               child: SlideInUp(
                 from: size.height - 100,
                 duration: Duration(milliseconds: 300),
-                child: ExchangeChart('razxDUgYGNAdQ'),
+                child: ExchangeChart(key: UniqueKey(), coinId: 'razxDUgYGNAdQ'),
               ),
             ),
             FadeIn(
