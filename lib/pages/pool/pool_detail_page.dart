@@ -1,3 +1,4 @@
+import 'package:ethller/widgets/common/other/custom_container.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ethller_api_interface/ethller_api_interface.dart';
@@ -12,32 +13,14 @@ class PoolStatsPage extends StatelessWidget {
           stream: poolRepo.poolDataStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final poolData = snapshot.data;
-              final poolHasRate = poolData.poolStats.hashRate / 1000000000000;
-              final poolMiners = poolData.poolStats.miners;
-              final poolWorkers = poolData.poolStats.workers;
-              final blocksPerHour = poolData.poolStats.blocksPerHour;
+              final poolData = snapshot.data.poolStats;
+              final minedBlocs = snapshot.data.minedBlocks;
               return SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Total Hashrate: ${poolHasRate.toStringAsFixed(2)} TH/s',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text(
-                      'Total miners: $poolMiners',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text(
-                      'Total workers: $poolWorkers',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text(
-                      'Blocks per hour: ${blocksPerHour.toStringAsFixed(2)}',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
+                    _PoolStatsContainer(poolData: poolData),
                     SizedBox(height: 25),
                     Text(
                       'Mined blocks:',
@@ -46,9 +29,8 @@ class PoolStatsPage extends StatelessWidget {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: poolData.minedBlocks.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          _MinedBlockContainer(minedBlock: poolData.minedBlocks[index]),
+                      itemCount: minedBlocs.length,
+                      itemBuilder: (BuildContext context, int index) => _MinedBlockContainer(minedBlock: minedBlocs[index]),
                     )
                   ],
                 ),
@@ -56,6 +38,41 @@ class PoolStatsPage extends StatelessWidget {
             }
             return Center(child: Text('Loading...'));
           }),
+    );
+  }
+}
+
+class _PoolStatsContainer extends StatelessWidget {
+  const _PoolStatsContainer({
+    Key key,
+    @required this.poolData,
+  }) : super(key: key);
+
+  final PoolStats poolData;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomContainer(
+      child: Column(
+        children: [
+          Text(
+            'Total Hashrate: ${poolData.hashRate.toStringAsFixed(2)} TH/s',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          Text(
+            'Total miners: ${poolData.miners}',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          Text(
+            'Total workers: ${poolData.workers}',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          Text(
+            'Blocks per hour: ${poolData.blocksPerHour.toStringAsFixed(2)}',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ],
+      ),
     );
   }
 }
