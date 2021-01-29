@@ -31,7 +31,7 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
         return list1.add(num.parse(number).toDouble());
       });
       yield ChartDataState(list1);
-      add(ChartUpdateEvent());
+      updateChoinHistories();
     }
 
     if (event is ChartOneDayPeriodEvent) {
@@ -110,6 +110,7 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
   void updateChoinHistories() async {
     final i = 0;
     do {
+      await Future.delayed(Duration(minutes: coinsHistoriesRefreshRate));
       await getCoinsHistories();
       print('Coins histories updates!!!');
       switch (_selectedPeriod) {
@@ -131,7 +132,6 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
         default:
           add(ChartOneDayPeriodEvent());
       }
-      await Future.delayed(Duration(minutes: coinsHistoriesRefreshRate));
     } while (i == 0);
   }
 }
