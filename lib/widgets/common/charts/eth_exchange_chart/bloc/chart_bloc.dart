@@ -34,7 +34,10 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     if (event is ChartOneDayPeriodEvent) {
       yield ChartLoadingState();
       final List<double> list2 = [];
-      oneDayPeriod.forEach((element) => list2.add(num.parse(element.price).toDouble()));
+      oneDayPeriod.forEach((element) {
+        final number = num.parse(element.price).toDouble().toStringAsFixed(2);
+        return list2.add(num.parse(number).toDouble());
+      });
       _selectedPeriod = CoinHistoriesPeriod.ONEDAY;
       yield ChartDataState(list2);
     }
@@ -42,7 +45,10 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     if (event is ChartOneWeekPeriodEvent) {
       yield ChartLoadingState();
       final List<double> list3 = [];
-      oneWeekPeriod.forEach((element) => list3.add(num.parse(element.price).toDouble()));
+      oneWeekPeriod.forEach((element) {
+        final number = num.parse(element.price).toDouble().toStringAsFixed(2);
+        return list3.add(num.parse(number).toDouble());
+      });
       _selectedPeriod = CoinHistoriesPeriod.ONEWEEK;
       yield ChartDataState(list3);
     }
@@ -50,7 +56,10 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     if (event is ChartOneMonthPeriodEvent) {
       yield ChartLoadingState();
       final List<double> list4 = [];
-      oneMonthPeriod.forEach((element) => list4.add(num.parse(element.price).toDouble()));
+      oneMonthPeriod.forEach((element) {
+        final number = num.parse(element.price).toDouble().toStringAsFixed(2);
+        return list4.add(num.parse(number).toDouble());
+      });
       _selectedPeriod = CoinHistoriesPeriod.ONEMONTH;
       yield ChartDataState(list4);
     }
@@ -58,7 +67,10 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     if (event is ChartOneYearPeriodEvent) {
       yield ChartLoadingState();
       final List<double> list5 = [];
-      oneYearPeriod.forEach((element) => list5.add(num.parse(element.price).toDouble()));
+      oneYearPeriod.forEach((element) {
+        final number = num.parse(element.price).toDouble().toStringAsFixed(2);
+        return list5.add(num.parse(number).toDouble());
+      });
       _selectedPeriod = CoinHistoriesPeriod.ONEYEAR;
       yield ChartDataState(list5);
     }
@@ -66,7 +78,10 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     if (event is ChartFiveYearsPeriodEvent) {
       yield ChartLoadingState();
       final List<double> list6 = [];
-      fiveYearsPeriod.forEach((element) => list6.add(num.parse(element.price).toDouble()));
+      fiveYearsPeriod.forEach((element) {
+        final number = num.parse(element.price).toDouble().toStringAsFixed(2);
+        return list6.add(num.parse(number).toDouble());
+      });
       _selectedPeriod = CoinHistoriesPeriod.FIVEYEARS;
       yield ChartDataState(list6);
     }
