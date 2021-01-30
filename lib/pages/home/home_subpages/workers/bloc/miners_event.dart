@@ -3,7 +3,11 @@ part of 'miners_bloc.dart';
 @immutable
 abstract class MinersEvent {}
 
-class MinersInitEvent extends MinersEvent {}
+class MinersInitEvent extends MinersEvent {
+  final String walletId;
+
+  MinersInitEvent(this.walletId);
+}
 
 class MinersRemoveMinersEvent extends MinersEvent {}
 

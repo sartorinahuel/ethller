@@ -7,7 +7,6 @@ import 'package:ethller/widgets/common/other/custom_imput.dart';
 import 'package:ethller_api_interface/ethller_api_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class AddWalletPage extends StatefulWidget {
@@ -62,11 +61,13 @@ class _AddWalletPageState extends State<AddWalletPage> {
                   Container(
                     height: 300,
                     width: 300,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
                     child: QRView(
                       key: qrKey,
                       cameraFacing: CameraFacing.back,
-                      onQRViewCreated: (QRViewController controller) => _onQRViewCreated(
+                      onQRViewCreated: (QRViewController controller) =>
+                          _onQRViewCreated(
                         controller,
                         _editingController,
                       ),
@@ -88,7 +89,8 @@ class _AddWalletPageState extends State<AddWalletPage> {
                 ),
                 SizedBox(height: 30),
                 Container(
-                  margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                  margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom),
                   child: GradientButton(
                     height: 50,
                     width: 100,
@@ -104,11 +106,12 @@ class _AddWalletPageState extends State<AddWalletPage> {
                     onPressed: () async {
                       if (_editingController.text.isNotEmpty) {
                         text = _editingController.text;
+                        BlocProvider.of<WalletBloc>(context)
+                            .add(WalletInitEvent(text));
+                        BlocProvider.of<MinersBloc>(context)
+                            .add(MinersInitEvent(text));
+                        Navigator.pop(context);
                       }
-                      walletId = text;
-                      BlocProvider.of<WalletBloc>(context).add(WalletInitEvent());
-                      BlocProvider.of<MinersBloc>(context).add(MinersInitEvent());
-                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -120,15 +123,20 @@ class _AddWalletPageState extends State<AddWalletPage> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller, TextEditingController _editingController) {
+  void _onQRViewCreated(
+      QRViewController controller, TextEditingController _editingController) {
     setState(() {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        _editingController.text = result.code.substring(result.code.indexOf('0x'), result.code.indexOf('0x') + 42).toLowerCase();
-        print(result.code.substring(result.code.indexOf('0x'), result.code.indexOf('0x') + 42));
+        _editingController.text = result.code
+            .substring(
+                result.code.indexOf('0x'), result.code.indexOf('0x') + 42)
+            .toLowerCase();
+        print(result.code.substring(
+            result.code.indexOf('0x'), result.code.indexOf('0x') + 42));
       });
     });
   }

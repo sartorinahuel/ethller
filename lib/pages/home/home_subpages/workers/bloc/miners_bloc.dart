@@ -8,18 +8,13 @@ part 'miners_event.dart';
 part 'miners_state.dart';
 
 class MinersBloc extends Bloc<MinersEvent, MinersState> {
-  MinersBloc() : super(MinersInitial()) {
-    if (walletId != 'walletId') {
-      add(MinersInitEvent());
-    }
-  }
+  MinersBloc() : super(MinersInitial());
 
   @override
   Stream<MinersState> mapEventToState(MinersEvent event) async* {
     if (event is MinersInitEvent) {
       yield MinersLoadingState();
-      // final miner = await minersRepo.getMinerData(walletId);
-      updateMinerData();
+      updateMinerData(event.walletId);
     }
 
     if (event is MinersUpdateEvent) {
@@ -31,7 +26,7 @@ class MinersBloc extends Bloc<MinersEvent, MinersState> {
     }
   }
 
-  void updateMinerData() async {
+  void updateMinerData(String walletId) async {
     do {
       print('Getting miners data...');
       final miner = await minersRepo.getMinerData(walletId);

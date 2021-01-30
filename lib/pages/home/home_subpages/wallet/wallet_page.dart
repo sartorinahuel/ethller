@@ -46,7 +46,8 @@ class _TxsList extends StatelessWidget {
       builder: (context, state) {
         if (state is WalletLoadedState) {
           final wallet = state.wallet;
-          wallet.transactions.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+          wallet.transactions
+              .sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
           return ListView.builder(
             shrinkWrap: true,
             padding: const EdgeInsets.all(0),
@@ -56,6 +57,7 @@ class _TxsList extends StatelessWidget {
               return SlideInUp(
                 duration: Duration(milliseconds: 300),
                 child: _TxCard(
+                  walletId: wallet.id,
                   tx: wallet.transactions[index],
                 ),
               );
@@ -63,7 +65,9 @@ class _TxsList extends StatelessWidget {
           );
         }
         if (state is WalletInitial) {
-          return Center(child: Text('No wallet added', style: Theme.of(context).textTheme.bodyText1));
+          return Center(
+              child: Text('No wallet added',
+                  style: Theme.of(context).textTheme.bodyText1));
         }
         return Center(child: CircularProgressIndicator());
       },
@@ -73,10 +77,12 @@ class _TxsList extends StatelessWidget {
 
 class _TxCard extends StatelessWidget {
   final WalletTransaction tx;
+  final String walletId;
 
   const _TxCard({
     Key key,
     @required this.tx,
+    @required this.walletId,
   }) : super(key: key);
 
   @override
@@ -128,7 +134,8 @@ class _TxCard extends StatelessWidget {
           ),
           Spacer(),
           Container(
-            margin: const EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 30),
+            margin:
+                const EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 30),
             height: double.infinity,
             width: 1,
             color: Colors.grey[800],

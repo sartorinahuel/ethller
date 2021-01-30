@@ -23,8 +23,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     if (event is WalletInitEvent) {
       yield WalletLoadingState();
       updateTrigger = true;
-      saveAddress(walletId);
-      updateWalletData();
+      saveAddress(event.walletId);
+      updateWalletData(event.walletId);
     }
 
     if (event is WalletUpdateEvent) {
@@ -37,7 +37,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     }
   }
 
-  void updateWalletData() async {
+  void updateWalletData(String walletId) async {
     do {
       final wallet = await walletRepo.getWalletData(walletId);
       add(WalletUpdateEvent(wallet));
@@ -49,10 +49,9 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final savedWallet = prefs.getString('address');
     print('on memory: $savedWallet');
-    if (savedWallet != null || savedWallet != 'walletId') {
-      walletId = savedWallet;
-      add(WalletInitEvent());
-      BlocProvider.of<MinersBloc>(context).add(MinersInitEvent());
+    if (savedWallet != null) {
+      add(WalletInitEvent(savedWallet));
+      BlocProvider.of<MinersBloc>(context).add(MinersInitEvent(savedWallet));
     }
   }
 
@@ -63,10 +62,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   void removeWallet() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('address', 'walletId');
-    walletId = 'walletId';
+    await prefs.setString('address', null);
     updateTrigger = false;
-    add(WalletRemoveWalletEvent());
     BlocProvider.of<MinersBloc>(context).add(MinersRemoveMinersEvent());
   }
 }
