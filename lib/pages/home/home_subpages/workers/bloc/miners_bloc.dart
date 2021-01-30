@@ -18,24 +18,26 @@ class MinersBloc extends Bloc<MinersEvent, MinersState> {
   Stream<MinersState> mapEventToState(MinersEvent event) async* {
     if (event is MinersInitEvent) {
       yield MinersLoadingState();
-      final miner = await minersRepo.getMinerData(walletId);
+      // final miner = await minersRepo.getMinerData(walletId);
       updateMinerData();
-      yield MinersLoadedState(miner);
     }
 
     if (event is MinersUpdateEvent) {
       yield MinersLoadedState(event.miner);
     }
+
+    if (event is MinersRemoveMinersEvent) {
+      yield MinersInitial();
+    }
   }
 
   void updateMinerData() async {
-    final i = 0;
     do {
-      await Future.delayed(Duration(minutes: minersDataRefreshRate));
       print('Getting miners data...');
       final miner = await minersRepo.getMinerData(walletId);
       add(MinersUpdateEvent(miner));
       print('Miners Data Updated!!!');
-    } while (i == 0);
+      await Future.delayed(Duration(minutes: minersDataRefreshRate));
+    } while (updateTrigger);
   }
 }

@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ChartBloc('razxDUgYGNAdQ')..add(ChartInitEvent())),
-        BlocProvider(create: (context) => WalletBloc()),
         BlocProvider(create: (context) => PoolBloc()..add(PoolInitEvent())),
         BlocProvider(create: (context) => MinersBloc()),
+        BlocProvider(create: (context) => WalletBloc(context)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

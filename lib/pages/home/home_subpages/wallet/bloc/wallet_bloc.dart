@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller_api_interface/ethller_api_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,8 +12,10 @@ part 'wallet_event.dart';
 part 'wallet_state.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
-  WalletBloc() : super(WalletInitial()) {
-    loadFromMemory();
+  BuildContext context;
+
+  WalletBloc(this.context) : super(WalletInitial()) {
+    loadFromMemory(context);
   }
 
   @override
@@ -26,6 +30,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     if (event is WalletUpdateEvent) {
       yield WalletLoadedState(event.wallet);
     }
+
+    if (event is WalletRemoveWalletEvent) {
+      removeWallet();
+      yield WalletInitial();
+    }
   }
 
   void updateWalletData() async {
@@ -36,18 +45,28 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     } while (updateTrigger);
   }
 
-  void loadFromMemory() async {
+  void loadFromMemory(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final savedWallet = prefs.getString('address');
     print('on memory: $savedWallet');
-    if (savedWallet != null) {
+    if (savedWallet != null || savedWallet != 'walletId') {
       walletId = savedWallet;
       add(WalletInitEvent());
+      BlocProvider.of<MinersBloc>(context).add(MinersInitEvent());
     }
   }
 
   void saveAddress(String address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('address', address);
+  }
+
+  void removeWallet() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('address', 'walletId');
+    walletId = 'walletId';
+    updateTrigger = false;
+    add(WalletRemoveWalletEvent());
+    BlocProvider.of<MinersBloc>(context).add(MinersRemoveMinersEvent());
   }
 }

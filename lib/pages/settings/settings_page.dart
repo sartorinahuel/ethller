@@ -1,5 +1,7 @@
+import 'package:ethller/pages/home/home_subpages/wallet/bloc/wallet_bloc.dart';
 import 'package:ethller/widgets/common/buttons/gradient_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -27,7 +29,7 @@ class SettingsPage extends StatelessWidget {
                   _SettingsItem(
                       title: 'Remove wallet',
                       onTap: () {
-                        //TODO clear data
+                        BlocProvider.of<WalletBloc>(context).add(WalletRemoveWalletEvent());
                         Scaffold.of(context).showSnackBar(snackBar);
                       }),
                   Padding(
