@@ -1,4 +1,5 @@
 import 'package:ethller/pages/add_wallet/add_wallet_page.dart';
+import 'package:ethller/pages/donations/donations_page.dart';
 import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/pages/pool/bloc/pool_bloc.dart';
 import 'package:ethller/pages/pool/pool_detail_page.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/pool-stats': (context) => PoolStatsPage(),
           '/settings': (context) => SettingsPage(),
           '/add-wallet': (context) => AddWalletPage(),
+          '/donations': (context) => DonationsPage(),
         },
       ),
     );

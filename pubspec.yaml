@@ -28,10 +28,14 @@ dependencies:
       url: https://github.com/sartorinahuel/ethller_api_interface.git
   animate_do: ^1.7.5
   bloc: ^6.1.1
+  clipboard: ^0.1.2+8
   cupertino_icons: ^1.0.0
   fl_chart: ^0.12.2
   flutter_bloc: ^6.1.1
   provider: ^4.3.3
+  qrscan: ^0.2.22
+  shared_preferences: ^0.5.12+4
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:
