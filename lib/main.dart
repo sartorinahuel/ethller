@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     coinRepo.getCoins();
     //Esto es temporal hasta que este el add wallet
-    walletId = '0xF02bB51E0aEbCE3FeDd890555A19582FEBa1Eb3a';
+    walletId = '0xF02bB51E0aEbCE3FeDd890555A19582FEBa1Eb3a'.toLowerCase(); //Tener en cuenta el LowerCase
     minersRepo.getMinerData(walletId);
 
     return MultiBlocProvider(
