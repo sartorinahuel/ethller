@@ -1,3 +1,4 @@
+import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/pages/pool/bloc/pool_bloc.dart';
 import 'package:ethller/pages/pool/pool_detail_page.dart';
 import 'package:ethller/theme/theme_service.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => ChartBloc('razxDUgYGNAdQ')..add(ChartInitEvent())),
         BlocProvider(create: (context) => PoolBloc()..add(PoolInitEvent())),
+        BlocProvider(create: (context) => MinersBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

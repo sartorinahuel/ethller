@@ -1,11 +1,9 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:ethller/pages/pool/bloc/pool_bloc.dart';
 import 'package:ethller/widgets/common/other/custom_container.dart';
 import 'package:ethller/widgets/common/other/workers_summary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WorkersPage extends StatelessWidget {
+class MinersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

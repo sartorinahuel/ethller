@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:ethller/pages/add_wallet/add_wallet_page.dart';
 import 'package:ethller/pages/settings/settings_page.dart';
 import 'package:ethller/pages/home/home_subpages/wallet/wallet_page.dart';
-import 'package:ethller/pages/home/home_subpages/workers/workers_page.dart';
+import 'package:ethller/pages/home/home_subpages/workers/miners_page.dart';
 import 'package:ethller/pages/home/widgets/header/widgets/custom_drawer_button.dart';
 import 'package:ethller/pages/home/home_subpages/general/general_page.dart';
 import 'package:ethller/pages/home/provider/home_page_sub_pages_provider.dart';
@@ -61,9 +61,9 @@ class _HeaderHomePageState extends State<HeaderHomePage> {
                       },
                     ),
                     SelectorBarButton(
-                      title: 'Workers',
+                      title: 'Miners',
                       onPressed: () async {
-                        Provider.of<HomePageSubPagesProvider>(context, listen: false).changePage = WorkersPage();
+                        Provider.of<HomePageSubPagesProvider>(context, listen: false).changePage = MinersPage();
                       },
                     ),
                     SelectorBarButton(
