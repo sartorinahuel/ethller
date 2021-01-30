@@ -82,6 +82,9 @@ class WalletSummary extends StatelessWidget {
                 ],
               );
             }
+            if (state is WalletInitial) {
+              return Center(child: Text('No Wallet Added', style: Theme.of(context).textTheme.bodyText1));
+            }
             return Center(child: CircularProgressIndicator());
           },
         ),

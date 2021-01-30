@@ -2,25 +2,25 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:ethller_api_interface/ethller_api_interface.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'wallet_event.dart';
 part 'wallet_state.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
   WalletBloc() : super(WalletInitial()) {
-    if (walletId != 'walletId') {
-      add(WalletInitEvent());
-    }
+    loadFromMemory();
   }
 
   @override
   Stream<WalletState> mapEventToState(WalletEvent event) async* {
     if (event is WalletInitEvent) {
       yield WalletLoadingState();
-      final wallet = await walletRepo.getWalletData(walletId);
+      updateTrigger = true;
+      saveAddress(walletId);
       updateWalletData();
-      yield WalletLoadedState(wallet);
     }
 
     if (event is WalletUpdateEvent) {
@@ -29,11 +29,25 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   }
 
   void updateWalletData() async {
-    final i = 0;
     do {
-      await Future.delayed(Duration(minutes: walletDataRefreshRate));
       final wallet = await walletRepo.getWalletData(walletId);
       add(WalletUpdateEvent(wallet));
-    } while (i == 0);
+      await Future.delayed(Duration(minutes: walletDataRefreshRate));
+    } while (updateTrigger);
+  }
+
+  void loadFromMemory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final savedWallet = prefs.getString('address');
+    print('on memory: $savedWallet');
+    if (savedWallet != null) {
+      walletId = savedWallet;
+      add(WalletInitEvent());
+    }
+  }
+
+  void saveAddress(String address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('address', address);
   }
 }

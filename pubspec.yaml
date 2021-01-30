@@ -33,7 +33,7 @@ dependencies:
   fl_chart: ^0.12.2
   flutter_bloc: ^6.1.1
   provider: ^4.3.3
-  qrscan: ^0.2.22
+  qr_code_scanner: ^0.3.0
   shared_preferences: ^0.5.12+4
   url_launcher: ^5.7.10
 

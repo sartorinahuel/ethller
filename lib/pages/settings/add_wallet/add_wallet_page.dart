@@ -1,12 +1,14 @@
-import 'dart:async';
 import 'dart:io';
 
+import 'package:ethller/pages/home/home_subpages/wallet/bloc/wallet_bloc.dart';
+import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/widgets/common/buttons/gradient_button.dart';
 import 'package:ethller/widgets/common/other/custom_imput.dart';
+import 'package:ethller_api_interface/ethller_api_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class AddWalletPage extends StatefulWidget {
   @override
@@ -15,17 +17,16 @@ class AddWalletPage extends StatefulWidget {
 
 class _AddWalletPageState extends State<AddWalletPage> {
   TextEditingController _editingController = new TextEditingController();
+  Barcode result;
+  QRViewController controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   String text = '';
 
   @override
   void dispose() {
-    _editingController.dispose();
+    _editingController?.dispose();
+    controller?.dispose();
     super.dispose();
-  }
-
-  void saveAddress(String address) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('address', address);
   }
 
   @override
@@ -58,29 +59,26 @@ class _AddWalletPageState extends State<AddWalletPage> {
                   ),
                 SizedBox(height: 40),
                 if (Platform.isAndroid || Platform.isIOS)
-                  GradientButton(
-                    height: 50,
-                    width: 130,
-                    isButton: true,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.qr_code,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'QR Scan',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                  Container(
+                    height: 300,
+                    width: 300,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                    child: QRView(
+                      key: qrKey,
+                      cameraFacing: CameraFacing.back,
+                      onQRViewCreated: (QRViewController controller) => _onQRViewCreated(
+                        controller,
+                        _editingController,
+                      ),
+                      formatsAllowed: [BarcodeFormat.qrcode],
+                      overlay: QrScannerOverlayShape(
+                        borderColor: Colors.red,
+                        borderRadius: 10,
+                        borderLength: 30,
+                        borderWidth: 10,
+                        cutOutSize: 270,
+                      ),
                     ),
-                    onPressed: _scan,
                   ),
                 if (Platform.isAndroid || Platform.isIOS) SizedBox(height: 40),
                 CustomInput(
@@ -107,8 +105,9 @@ class _AddWalletPageState extends State<AddWalletPage> {
                       if (_editingController.text.isNotEmpty) {
                         text = _editingController.text;
                       }
-                      //TODO Add wallet
-                      saveAddress(text);
+                      walletId = text;
+                      BlocProvider.of<WalletBloc>(context).add(WalletInitEvent());
+                      BlocProvider.of<MinersBloc>(context).add(MinersInitEvent());
                       Navigator.pop(context);
                     },
                   ),
@@ -121,19 +120,16 @@ class _AddWalletPageState extends State<AddWalletPage> {
     );
   }
 
-  Future _scan() async {
-    String barcode = await scanner.scan();
-    if (barcode == null) {
-      print('nothing return.');
-    } else {
+  void _onQRViewCreated(QRViewController controller, TextEditingController _editingController) {
+    setState(() {
+      this.controller = controller;
+    });
+    controller.scannedDataStream.listen((scanData) {
       setState(() {
-        _editingController.clear();
-        text = barcode;
-        //TODO Add wallet
-
-        saveAddress(text);
-        Navigator.pop(context);
+        result = scanData;
+        _editingController.text = result.code.substring(result.code.indexOf('0x'), result.code.indexOf('0x') + 42).toLowerCase();
+        print(result.code.substring(result.code.indexOf('0x'), result.code.indexOf('0x') + 42));
       });
-    }
+    });
   }
 }

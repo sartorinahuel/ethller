@@ -102,6 +102,7 @@ class _HeaderHomePageState extends State<HeaderHomePage> {
                               setState(() {
                                 isOpen = !isOpen;
                               });
+                              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => QRViewExample()));
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddWalletPage()));
                             },
                             child: Text(

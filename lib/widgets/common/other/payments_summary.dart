@@ -17,7 +17,7 @@ class PaymentsSummary extends StatelessWidget {
         child: BlocBuilder<MinersBloc, MinersState>(
           builder: (context, state) {
             if (state is MinersLoadedState) {
-              final unpaidBalance = state.miner.currentStats.unpaid / 1000000000000000000;
+              final unpaidBalance = (state.miner.currentStats.unpaid ?? 0) / 1000000000000000000;
               final minPayout = state.miner.minPayout / 1000000000000000000;
               porcentaje = (unpaidBalance * 100) / minPayout;
               return Row(
@@ -76,6 +76,66 @@ class PaymentsSummary extends StatelessWidget {
                   ),
                   Spacer(),
                   CustomRadialProgress(porcentaje: double.parse(porcentaje.toStringAsFixed(2)))
+                ],
+              );
+            }
+            if (state is MinersInitial) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.payments,
+                            color: Colors.grey[600],
+                            size: 30,
+                          ),
+                          SizedBox(width: 15),
+                          Text(
+                            'Payments',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        width: 200,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Unpaid Balance',
+                              style: TextStyle(color: Colors.grey[600], fontSize: 15),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '0',
+                                  style: TextStyle(color: Colors.white, fontSize: 22),
+                                ),
+                                Text(
+                                  ' ETH',
+                                  style: TextStyle(color: Colors.white, fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  CustomRadialProgress(porcentaje: 0.0),
                 ],
               );
             }

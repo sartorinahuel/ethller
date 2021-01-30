@@ -5,6 +5,8 @@ abstract class WalletEvent {}
 
 class WalletInitEvent extends WalletEvent {}
 
+class WalletCheckForWalletEvent extends WalletEvent {}
+
 class WalletUpdateEvent extends WalletEvent {
   final Wallet wallet;
 

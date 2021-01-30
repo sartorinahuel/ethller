@@ -20,16 +20,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     coinRepo.getCoins();
-    //Esto es temporal hasta que este el add wallet
-    walletId = '0xF02bB51E0aEbCE3FeDd890555A19582FEBa1Eb3a'.toLowerCase(); //Tener en cuenta el LowerCase
-    minersRepo.getMinerData(walletId);
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ChartBloc('razxDUgYGNAdQ')..add(ChartInitEvent())),
+        BlocProvider(create: (context) => WalletBloc()),
         BlocProvider(create: (context) => PoolBloc()..add(PoolInitEvent())),
         BlocProvider(create: (context) => MinersBloc()),
-        BlocProvider(create: (context) => WalletBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
