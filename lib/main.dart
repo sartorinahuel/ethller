@@ -1,3 +1,5 @@
+import 'package:ethller/pages/pool/bloc/pool_bloc.dart';
+import 'package:ethller/pages/pool/pool_detail_page.dart';
 import 'package:ethller/theme/theme_service.dart';
 import 'package:ethller/widgets/common/charts/eth_exchange_chart/bloc/chart_bloc.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +15,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     coinRepo.getCoins();
+    //Esto es temporal hasta que este el add wallet
+    walletId = '0xF02bB51E0aEbCE3FeDd890555A19582FEBa1Eb3a';
+    minersRepo.getMinerData(walletId);
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Ethller',
-      theme: ThemeService.darkTheme,
-      home: BlocProvider(
-        create: (context) => ChartBloc('razxDUgYGNAdQ')..add(ChartInitEvent()),
-        child: HomePage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ChartBloc('razxDUgYGNAdQ')..add(ChartInitEvent())),
+        BlocProvider(create: (context) => PoolBloc()..add(PoolInitEvent())),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Ethller',
+        theme: ThemeService.darkTheme,
+        home: HomePage(),
+        routes: {
+          '/pool-stats': (context) => PoolStatsPage(),
+        },
       ),
-      // home: WidgetTestPage(),
     );
   }
 }

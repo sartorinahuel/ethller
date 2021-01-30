@@ -1,43 +1,44 @@
+import 'package:ethller/pages/pool/bloc/pool_bloc.dart';
 import 'package:ethller/widgets/common/other/custom_container.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ethller_api_interface/ethller_api_interface.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PoolStatsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    poolRepo.updatePoolStats();
     return Scaffold(
       appBar: AppBar(title: Text('Ethermin pool stats')),
-      body: StreamBuilder<PoolData>(
-          stream: poolRepo.poolDataStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final poolData = snapshot.data.poolStats;
-              final minedBlocs = snapshot.data.minedBlocks;
-              return SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _PoolStatsContainer(poolData: poolData),
-                    SizedBox(height: 25),
-                    Text(
-                      'Mined blocks:',
-                      style: Theme.of(context).textTheme.headline1,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: minedBlocs.length,
-                      itemBuilder: (BuildContext context, int index) => _MinedBlockContainer(minedBlock: minedBlocs[index]),
-                    )
-                  ],
-                ),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: BlocBuilder<PoolBloc, PoolState>(
+          builder: (context, state) {
+            if (state is PoolLoadedState) {
+              final poolData = state.poolData;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _PoolStatsContainer(poolData: poolData.poolStats),
+                  SizedBox(height: 25),
+                  Text(
+                    'Mined blocks:',
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: poolData.minedBlocks.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        _MinedBlockContainer(minedBlock: poolData.minedBlocks[index]),
+                  )
+                ],
               );
             }
-            return Center(child: Text('Loading...'));
-          }),
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
+      ),
     );
   }
 }

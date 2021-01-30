@@ -1,8 +1,23 @@
 import 'package:ethller/widgets/common/other/custom_container.dart';
 import 'package:ethller/widgets/common/other/spinner.dart';
+import 'package:ethller_api_interface/ethller_api_interface.dart';
 import 'package:flutter/material.dart';
 
 class WorkersSummary extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _WorkerSummaryData();
+  }
+}
+
+class _WorkerSummaryData extends StatelessWidget {
+  final Miner miner;
+
+  const _WorkerSummaryData({
+    Key key,
+    this.miner,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
@@ -50,8 +65,7 @@ class WorkersSummary extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  '251.32',
-                  // currentStats.currentHashrate != null ? (currentStats.currentHashrate / 1000000).toStringAsFixed(2) : '0.0',
+                  '0',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 Text(
@@ -84,7 +98,7 @@ class WorkersSummary extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  '259.02',
+                  '0',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 Text(
@@ -117,7 +131,7 @@ class WorkersSummary extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  '252.32',
+                  '0',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 Text(

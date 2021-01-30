@@ -1,8 +1,9 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:ethller/pages/pool/pool_detail_page.dart';
+import 'package:ethller/pages/pool/bloc/pool_bloc.dart';
 import 'package:ethller/widgets/common/other/custom_container.dart';
 import 'package:ethller/widgets/common/other/workers_summary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WorkersPage extends StatelessWidget {
   @override
@@ -34,11 +35,7 @@ class WorkersPage extends StatelessWidget {
                 from: size.height - 100,
                 duration: Duration(milliseconds: 300),
                 child: GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => PoolStatsPage(),
-                    ),
-                  ),
+                  onTap: () => Navigator.pushNamed(context, '/pool-stats'),
                   child: CustomContainer(
                     padding: const EdgeInsets.all(0),
                     height: 60,
