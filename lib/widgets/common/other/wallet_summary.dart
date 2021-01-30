@@ -1,4 +1,4 @@
-import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
+import 'package:ethller/pages/home/home_subpages/wallet/bloc/wallet_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,9 +11,13 @@ class WalletSummary extends StatelessWidget {
       height: 100,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7.5),
-        child: BlocBuilder<MinersBloc, MinersState>(
+        child: BlocBuilder<WalletBloc, WalletState>(
           builder: (BuildContext context, state) {
-            if (state is MinersLoadedState) {
+            if (state is WalletLoadedState) {
+              final wallet = state.wallet;
+              final balance = wallet.balance / 1000000000000000000;
+              final inBTC = wallet.inBTC / 1000000000000000000;
+              final inUSD = wallet.inUSD / 1000000000000000000;
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -40,7 +44,7 @@ class WalletSummary extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '0',
+                            balance.toStringAsFixed(5),
                             style: TextStyle(color: Colors.white, fontSize: 22),
                           ),
                           Text(
@@ -52,7 +56,7 @@ class WalletSummary extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '0',
+                            inBTC.toStringAsFixed(5),
                             style: TextStyle(color: Colors.grey[500], fontSize: 14),
                           ),
                           Text(
@@ -64,7 +68,7 @@ class WalletSummary extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '0',
+                            inUSD.toStringAsFixed(2),
                             style: TextStyle(color: Colors.grey[500], fontSize: 14),
                           ),
                           Text(

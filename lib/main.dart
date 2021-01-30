@@ -1,5 +1,6 @@
-import 'package:ethller/pages/add_wallet/add_wallet_page.dart';
-import 'package:ethller/pages/donations/donations_page.dart';
+import 'package:ethller/pages/home/home_subpages/wallet/bloc/wallet_bloc.dart';
+import 'package:ethller/pages/settings/add_wallet/add_wallet_page.dart';
+import 'package:ethller/pages/settings/donations/donations_page.dart';
 import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/pages/pool/bloc/pool_bloc.dart';
 import 'package:ethller/pages/pool/pool_detail_page.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ChartBloc('razxDUgYGNAdQ')..add(ChartInitEvent())),
         BlocProvider(create: (context) => PoolBloc()..add(PoolInitEvent())),
         BlocProvider(create: (context) => MinersBloc()),
+        BlocProvider(create: (context) => WalletBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:ethller/pages/add_wallet/add_wallet_page.dart';
+import 'package:ethller/pages/settings/add_wallet/add_wallet_page.dart';
 import 'package:ethller/pages/settings/settings_page.dart';
 import 'package:ethller/pages/home/home_subpages/wallet/wallet_page.dart';
 import 'package:ethller/pages/home/home_subpages/workers/miners_page.dart';
