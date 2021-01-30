@@ -111,6 +111,7 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     final i = 0;
     do {
       await Future.delayed(Duration(minutes: coinsHistoriesRefreshRate));
+      print('Getting coins histories...');
       await getCoinsHistories();
       print('Coins histories updates!!!');
       switch (_selectedPeriod) {

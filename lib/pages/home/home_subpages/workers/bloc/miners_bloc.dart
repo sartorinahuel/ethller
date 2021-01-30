@@ -32,6 +32,7 @@ class MinersBloc extends Bloc<MinersEvent, MinersState> {
     final i = 0;
     do {
       await Future.delayed(Duration(minutes: minersDataRefreshRate));
+      print('Getting miners data...');
       final miner = await minersRepo.getMinerData(walletId);
       add(MinersUpdateEvent(miner));
       print('Miners Data Updated!!!');

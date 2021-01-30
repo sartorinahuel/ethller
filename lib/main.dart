@@ -1,6 +1,8 @@
+import 'package:ethller/pages/add_wallet/add_wallet_page.dart';
 import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/pages/pool/bloc/pool_bloc.dart';
 import 'package:ethller/pages/pool/pool_detail_page.dart';
+import 'package:ethller/pages/settings/settings_page.dart';
 import 'package:ethller/theme/theme_service.dart';
 import 'package:ethller/widgets/common/charts/eth_exchange_chart/bloc/chart_bloc.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
         home: HomePage(),
         routes: {
           '/pool-stats': (context) => PoolStatsPage(),
+          '/settings': (context) => SettingsPage(),
+          '/add-wallet': (context) => AddWalletPage(),
         },
       ),
     );

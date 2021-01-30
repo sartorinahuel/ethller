@@ -28,8 +28,10 @@ class PoolBloc extends Bloc<PoolEvent, PoolState> {
     final i = 0;
     do {
       await Future.delayed(Duration(minutes: poolDataRefreshRate));
+      print('Getting pool data...');
       final PoolData poolData = await poolRepo.getPoolStats();
       add(PoolUpdateEvent(poolData));
+      print('Pool data updated!!!');
     } while (i == 0);
   }
 }
