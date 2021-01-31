@@ -1,4 +1,5 @@
 import 'package:ethller/pages/home/home_subpages/wallet/bloc/wallet_bloc.dart';
+import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/widgets/common/other/payments_summary.dart';
 import 'package:ethller/widgets/common/other/wallet_summary.dart';
 import 'package:ethller/widgets/common/other/workers_summary.dart';
@@ -22,10 +23,12 @@ class GeneralPage extends StatelessWidget {
         child: RefreshIndicator(
           displacement: 30,
           onRefresh: () async {
-            await coinRepo.getCoins();
+            coinRepo.getCoins();
             if (walletUID != '') {
               BlocProvider.of<WalletBloc>(context)
                   .add(WalletInitEvent(walletUID));
+              BlocProvider.of<MinersBloc>(context)
+                  .add(MinersInitEvent(walletUID));
             }
             print('Done refresh');
           },
