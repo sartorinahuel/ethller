@@ -11,6 +11,16 @@ class MinersInitEvent extends MinersEvent {
 
 class MinersRemoveMinersEvent extends MinersEvent {}
 
+class MinersNoConnectionEvent extends MinersEvent {}
+
+class MinersWalletNotFoundEvent extends MinersEvent {}
+
+class MinersErrorEvent extends MinersEvent {
+  final AppError appError;
+
+  MinersErrorEvent(this.appError);
+}
+
 class MinersUpdateEvent extends MinersEvent {
   final Miner miner;
 

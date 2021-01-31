@@ -10,7 +10,6 @@ class WorkersSummary extends StatelessWidget {
     return BlocBuilder<MinersBloc, MinersState>(
       builder: (BuildContext context, state) {
         if (state is MinersLoadedState) {
-
           return CustomContainer(
             height: 170,
             child: Column(
@@ -56,7 +55,8 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        state.miner.currentStats.currentHashrate.toStringAsFixed(2),
+                        state.miner.currentStats.currentHashrate
+                            .toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(
@@ -64,7 +64,8 @@ class WorkersSummary extends StatelessWidget {
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+                        margin:
+                            const EdgeInsets.only(top: 5, bottom: 5, left: 5),
                         height: 10,
                         width: 10,
                         decoration: BoxDecoration(
@@ -89,7 +90,8 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        state.miner.currentStats.reportedHashrate.toStringAsFixed(2),
+                        state.miner.currentStats.reportedHashrate
+                            .toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(
@@ -97,7 +99,8 @@ class WorkersSummary extends StatelessWidget {
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+                        margin:
+                            const EdgeInsets.only(top: 5, bottom: 5, left: 5),
                         height: 10,
                         width: 10,
                         decoration: BoxDecoration(
@@ -122,7 +125,8 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        state.miner.currentStats.averageHashrate.toStringAsFixed(2),
+                        state.miner.currentStats.averageHashrate
+                            .toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(
@@ -130,7 +134,8 @@ class WorkersSummary extends StatelessWidget {
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+                        margin:
+                            const EdgeInsets.only(top: 5, bottom: 5, left: 5),
                         height: 10,
                         width: 10,
                         decoration: BoxDecoration(
@@ -199,7 +204,8 @@ class WorkersSummary extends StatelessWidget {
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+                        margin:
+                            const EdgeInsets.only(top: 5, bottom: 5, left: 5),
                         height: 10,
                         width: 10,
                         decoration: BoxDecoration(
@@ -232,7 +238,8 @@ class WorkersSummary extends StatelessWidget {
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+                        margin:
+                            const EdgeInsets.only(top: 5, bottom: 5, left: 5),
                         height: 10,
                         width: 10,
                         decoration: BoxDecoration(
@@ -265,7 +272,8 @@ class WorkersSummary extends StatelessWidget {
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+                        margin:
+                            const EdgeInsets.only(top: 5, bottom: 5, left: 5),
                         height: 10,
                         width: 10,
                         decoration: BoxDecoration(
@@ -280,7 +288,24 @@ class WorkersSummary extends StatelessWidget {
             ),
           );
         }
-        return CustomContainer(child: Center(child: CircularProgressIndicator()));
+
+        if (state is MinersWalletNotFoundState) {
+          return CustomContainer(
+              child: Center(child: Text('Couldn´t find wallet in Ethermine pool')));
+        }
+
+        if (state is MinersNoConnectionState) {
+          return CustomContainer(
+              child: Center(child: Text('No connection')));
+        }
+
+        if (state is MinersErrorState) {
+          return CustomContainer(
+              child: Center(child: Text(state.appError.message)));
+        }
+
+        return CustomContainer(
+            child: Center(child: CircularProgressIndicator()));
       },
     );
   }

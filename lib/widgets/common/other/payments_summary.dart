@@ -138,6 +138,18 @@ class PaymentsSummary extends StatelessWidget {
                 ],
               );
             }
+
+            if (state is MinersWalletNotFoundState) {
+          return Center(child: Text('Couldn´t find wallet in Ethermine pool'));
+        }
+
+        if (state is MinersNoConnectionState) {
+          return Center(child: Text('No connection'));
+        }
+
+        if (state is MinersErrorState) {
+          return Center(child: Text(state.appError.message));
+        }
             return Center(child: CircularProgressIndicator());
           },
         ),

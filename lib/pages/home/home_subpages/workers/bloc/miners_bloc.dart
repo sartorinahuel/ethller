@@ -24,14 +24,33 @@ class MinersBloc extends Bloc<MinersEvent, MinersState> {
     if (event is MinersRemoveMinersEvent) {
       yield MinersInitial();
     }
+
+    if (event is MinersErrorEvent) {
+      yield MinersErrorState(event.appError);
+    }
+
+    if (event is MinersWalletNotFoundEvent) {
+      yield MinersWalletNotFoundState();
+    }
   }
 
   void updateMinerData(String walletId) async {
     do {
-      print('Getting miners data...');
-      final miner = await minersRepo.getMinerData(walletId);
-      add(MinersUpdateEvent(miner));
-      print('Miners Data Updated!!!');
+      try {
+        print('Getting miners data...');
+        final miner = await minersRepo.getMinerData(walletId);
+        add(MinersUpdateEvent(miner));
+        print('Miners Data Updated!!!');
+      } catch (e) {
+        if(e == AppError.connectionTimeout() || e == AppError.noConnection()){
+          add(MinersNoConnectionEvent());
+        }
+        if(e == AppError.walletNotFound()){
+          print(e.message);
+          add(MinersWalletNotFoundEvent());
+        }
+        add(MinersErrorEvent(e));
+      }
       await Future.delayed(Duration(minutes: minersDataRefreshRate));
     } while (updateTrigger);
   }
