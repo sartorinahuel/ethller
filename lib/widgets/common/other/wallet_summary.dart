@@ -14,10 +14,7 @@ class WalletSummary extends StatelessWidget {
         child: BlocBuilder<WalletBloc, WalletState>(
           builder: (BuildContext context, state) {
             if (state is WalletLoadedState) {
-              final wallet = state.wallet;
-              final balance = wallet.balance / 1000000000000000000;
-              final inBTC = wallet.inBTC / 1000000000000000000;
-              final inUSD = wallet.inUSD / 1000000000000000000;
+
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -44,7 +41,7 @@ class WalletSummary extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            balance.toStringAsFixed(5),
+                            state.wallet.balance.toStringAsFixed(5),
                             style: TextStyle(color: Colors.white, fontSize: 22),
                           ),
                           Text(
@@ -56,7 +53,7 @@ class WalletSummary extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            inBTC.toStringAsFixed(5),
+                            state.wallet.inBTC.toStringAsFixed(5),
                             style: TextStyle(color: Colors.grey[500], fontSize: 14),
                           ),
                           Text(
@@ -68,7 +65,7 @@ class WalletSummary extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            inUSD.toStringAsFixed(2),
+                            state.wallet.inUSD.toStringAsFixed(2),
                             style: TextStyle(color: Colors.grey[500], fontSize: 14),
                           ),
                           Text(

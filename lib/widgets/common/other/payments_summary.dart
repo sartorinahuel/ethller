@@ -17,9 +17,8 @@ class PaymentsSummary extends StatelessWidget {
         child: BlocBuilder<MinersBloc, MinersState>(
           builder: (context, state) {
             if (state is MinersLoadedState) {
-              final unpaidBalance = (state.miner.currentStats.unpaid ?? 0) / 1000000000000000000;
-              final minPayout = state.miner.minPayout / 1000000000000000000;
-              porcentaje = (unpaidBalance * 100) / minPayout;
+              final unpaidBalance = (state.miner.currentStats.unpaid ?? 0);
+              porcentaje = (unpaidBalance * 100) / state.miner.minPayout;
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -10,10 +10,7 @@ class WorkersSummary extends StatelessWidget {
     return BlocBuilder<MinersBloc, MinersState>(
       builder: (BuildContext context, state) {
         if (state is MinersLoadedState) {
-          final miner = state.miner;
-          final reportedHashRate = miner.currentStats.reportedHashrate / 1000000;
-          final currentHashrate = miner.currentStats.currentHashrate / 1000000;
-          final averageHashrate = miner.currentStats.averageHashrate / 1000000;
+
           return CustomContainer(
             height: 170,
             child: Column(
@@ -38,8 +35,8 @@ class WorkersSummary extends StatelessWidget {
                       Spacer(),
                       SpinnerIndicator(
                         key: UniqueKey(),
-                        denominator: miner.currentStats.activeWorkers,
-                        numerator: miner.history.last.activeWorkers,
+                        denominator: state.miner.currentStats.activeWorkers,
+                        numerator: state.miner.history.last.activeWorkers,
                       ),
                     ],
                   ),
@@ -59,7 +56,7 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        currentHashrate.toStringAsFixed(2),
+                        state.miner.currentStats.currentHashrate.toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(
@@ -92,7 +89,7 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        reportedHashRate.toStringAsFixed(2),
+                        state.miner.currentStats.reportedHashrate.toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(
@@ -125,7 +122,7 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        averageHashrate.toStringAsFixed(2),
+                        state.miner.currentStats.averageHashrate.toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(

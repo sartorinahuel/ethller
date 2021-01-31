@@ -87,9 +87,7 @@ class _TxCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final i = int.parse(tx.timeStamp);
-    final date = DateTime.fromMillisecondsSinceEpoch(i * 1000);
-    final value = int.parse(tx.value) / 1000000000000000000;
+    final inUsd = tx.value * ethUsd;
     return CustomContainer(
       height: 80,
       borderRadius: 10,
@@ -115,7 +113,7 @@ class _TxCard extends StatelessWidget {
                 ),
               ),
               Text(
-                '${date.day}/${date.month}/${date.year} ',
+                '${tx.timeStamp.day}/${tx.timeStamp.month}/${tx.timeStamp.year} ',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -123,7 +121,7 @@ class _TxCard extends StatelessWidget {
                 ),
               ),
               Text(
-                '${date.hour}:${date.minute} hs',
+                '${tx.timeStamp.hour}:${tx.timeStamp.minute} hs',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -148,7 +146,7 @@ class _TxCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 children: [
                   Text(
-                    value.toStringAsFixed(8),
+                    tx.value.toStringAsFixed(8),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -168,7 +166,7 @@ class _TxCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 children: [
                   Text(
-                    '0',
+                    inUsd.toStringAsFixed(2),
                     style: TextStyle(
                       color: Colors.grey[400],
                       fontSize: 15,
