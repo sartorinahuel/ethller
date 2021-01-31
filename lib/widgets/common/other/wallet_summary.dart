@@ -14,7 +14,6 @@ class WalletSummary extends StatelessWidget {
         child: BlocBuilder<WalletBloc, WalletState>(
           builder: (BuildContext context, state) {
             if (state is WalletLoadedState) {
-
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -82,6 +81,15 @@ class WalletSummary extends StatelessWidget {
             if (state is WalletInitial) {
               return Center(child: Text('No Wallet Added', style: Theme.of(context).textTheme.bodyText1));
             }
+
+            if (state is WalletErrorState) {
+              return Center(child: Text('Error: try to reload', style: Theme.of(context).textTheme.bodyText1));
+            }
+            
+            if (state is WalletNoConnectionState) {
+              return Center(child: Text('No internet Connection', style: Theme.of(context).textTheme.bodyText1));
+            }
+
             return Center(child: CircularProgressIndicator());
           },
         ),

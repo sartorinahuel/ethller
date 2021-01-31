@@ -81,6 +81,19 @@ class _TxsList extends StatelessWidget {
               child: Text('No wallet added',
                   style: Theme.of(context).textTheme.bodyText1));
         }
+
+        if (state is WalletNoConnectionState) {
+          return Center(
+              child: Text('No internet connection',
+                  style: Theme.of(context).textTheme.bodyText1));
+        }
+
+        if (state is WalletErrorState) {
+          return Center(
+              child: Text(state.appError.message,
+                  style: Theme.of(context).textTheme.bodyText1));
+        }
+
         return Center(child: CircularProgressIndicator());
       },
     );
