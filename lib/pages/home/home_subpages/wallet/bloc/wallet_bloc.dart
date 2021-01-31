@@ -31,6 +31,14 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       yield WalletLoadedState(event.wallet);
     }
 
+    if (event is WalletNoConnectionEvent) {
+      yield WalletNoConnectionState();
+    }
+
+    if (event is WalletErrorEvent) {
+      yield WalletErrorState(event.appError);
+    }
+
     if (event is WalletRemoveWalletEvent) {
       removeWallet();
       walletUID = '';
@@ -40,8 +48,18 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   void updateWalletData(String walletId) async {
     do {
-      final wallet = await walletRepo.getWalletData(walletId);
-      add(WalletUpdateEvent(wallet));
+      try {
+        final wallet = await walletRepo.getWalletData(walletId);
+        add(WalletUpdateEvent(wallet));
+      } catch (e) {
+        if(e == AppError.connectionTimeout() || e == AppError.noConnection()){
+          add(WalletNoConnectionEvent());
+        }
+        if(e == AppError.maxRateLimitReached()){
+          print('Max limit reached!!!');
+        }
+        add(WalletErrorEvent(e));
+      }
       await Future.delayed(Duration(minutes: walletDataRefreshRate));
     } while (updateTrigger);
   }

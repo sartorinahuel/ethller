@@ -181,7 +181,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a6961a1d1b2e16c8e6ef9547965855281d67f212
+      resolved-ref: a4ce0debbe07e3d0fdbdffc4efbe6d355e4b0468
       url: "https://github.com/sartorinahuel/ethller_api_interface.git"
     source: git
     version: "0.0.0"
