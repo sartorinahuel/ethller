@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import "package:ethereum_address/ethereum_address.dart";
+
 import 'package:ethller/pages/home/home_subpages/wallet/bloc/wallet_bloc.dart';
 import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/widgets/common/buttons/gradient_button.dart';
@@ -15,6 +17,8 @@ class AddWalletPage extends StatefulWidget {
 }
 
 class _AddWalletPageState extends State<AddWalletPage> {
+  final snackBar = SnackBar(
+      content: Text('invalid Wallet!', style: TextStyle(fontSize: 22)));
   TextEditingController _editingController = new TextEditingController();
   Barcode result;
   QRViewController controller;
@@ -88,31 +92,37 @@ class _AddWalletPageState extends State<AddWalletPage> {
                   textController: _editingController,
                 ),
                 SizedBox(height: 30),
-                Container(
-                  margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom),
-                  child: GradientButton(
-                    height: 50,
-                    width: 100,
-                    isButton: true,
-                    child: Text(
-                      'Add',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                Builder(
+                  builder: (BuildContext context) => Container(
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).padding.bottom),
+                    child: GradientButton(
+                      height: 50,
+                      width: 100,
+                      isButton: true,
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      onPressed: () async {
+                        if (_editingController.text.isNotEmpty) {
+                          text = _editingController.text;
+                          if (isValidEthereumAddress(text)) {
+                            BlocProvider.of<WalletBloc>(context)
+                                .add(WalletInitEvent(text));
+                            BlocProvider.of<MinersBloc>(context)
+                                .add(MinersInitEvent(text));
+                            Navigator.pop(context);
+                          } else {
+                            Scaffold.of(context).showSnackBar(snackBar);
+                          }
+                        }
+                      },
                     ),
-                    onPressed: () async {
-                      if (_editingController.text.isNotEmpty) {
-                        text = _editingController.text;
-                        BlocProvider.of<WalletBloc>(context)
-                            .add(WalletInitEvent(text));
-                        BlocProvider.of<MinersBloc>(context)
-                            .add(MinersInitEvent(text));
-                        Navigator.pop(context);
-                      }
-                    },
                   ),
                 ),
               ],

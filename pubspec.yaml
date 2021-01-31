@@ -30,6 +30,7 @@ dependencies:
   bloc: ^6.1.1
   clipboard: ^0.1.2+8
   cupertino_icons: ^1.0.0
+  ethereum_address: ^1.0.1
   fl_chart: ^0.12.2
   flutter_bloc: ^6.1.1
   provider: ^4.3.3
