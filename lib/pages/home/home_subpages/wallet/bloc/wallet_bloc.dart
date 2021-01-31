@@ -33,6 +33,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
     if (event is WalletRemoveWalletEvent) {
       removeWallet();
+      walletUID = '';
       yield WalletInitial();
     }
   }

@@ -112,6 +112,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
                         if (_editingController.text.isNotEmpty) {
                           text = _editingController.text;
                           if (isValidEthereumAddress(text)) {
+                            walletUID = text;
                             BlocProvider.of<WalletBloc>(context)
                                 .add(WalletInitEvent(text));
                             BlocProvider.of<MinersBloc>(context)

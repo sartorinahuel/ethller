@@ -14,24 +14,34 @@ class WalletPage extends StatelessWidget {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(height: 185 + topPadding, width: double.infinity),
-              FadeIn(
-                duration: const Duration(milliseconds: 300),
-                child: SlideInUp(
+        padding: EdgeInsets.only(top: 165 + topPadding),
+        child: RefreshIndicator(
+          onRefresh: () async {
+            if (walletUID != '') {
+              BlocProvider.of<WalletBloc>(context)
+                  .add(WalletInitEvent(walletUID));
+            }
+            await Future.delayed(Duration(seconds: 1));
+          },
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(height: 20, width: double.infinity),
+                FadeIn(
                   duration: const Duration(milliseconds: 300),
-                  child: Column(
-                    children: [
-                      WalletSummary(),
-                      _TxsList(),
-                    ],
+                  child: SlideInUp(
+                    duration: const Duration(milliseconds: 300),
+                    child: Column(
+                      children: [
+                        WalletSummary(),
+                        _TxsList(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -52,7 +62,9 @@ class _TxsList extends StatelessWidget {
             shrinkWrap: true,
             padding: const EdgeInsets.all(0),
             physics: NeverScrollableScrollPhysics(),
-            itemCount: wallet.transactions.length,
+            itemCount: wallet.transactions.length > 25
+                ? 25
+                : wallet.transactions.length,
             itemBuilder: (BuildContext context, int index) {
               return SlideInUp(
                 duration: Duration(milliseconds: 300),
