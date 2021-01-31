@@ -30,11 +30,21 @@ class PoolStatsPage extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: poolData.minedBlocks.length,
                     itemBuilder: (BuildContext context, int index) =>
-                        _MinedBlockContainer(minedBlock: poolData.minedBlocks[index]),
+                        _MinedBlockContainer(
+                            minedBlock: poolData.minedBlocks[index]),
                   )
                 ],
               );
             }
+
+            if (state is PoolNoConnectionState) {
+              return Center(child: Text('No internet connection'));
+            }
+
+            if (state is PoolErrorState) {
+              return Center(child: Text(state.appError.message));
+            }
+            
             return Center(child: CircularProgressIndicator());
           },
         ),
@@ -94,9 +104,12 @@ class _MinedBlockContainer extends StatelessWidget {
         children: [
           Container(height: 1, width: double.infinity, color: Colors.white),
           SizedBox(height: 10),
-          Text('Number: ${minedBlock.number}', style: Theme.of(context).textTheme.bodyText1),
-          Text('Miner: ${minedBlock.miner}', style: Theme.of(context).textTheme.bodyText1),
-          Text('Date: ${minedBlock.time}', style: Theme.of(context).textTheme.bodyText1),
+          Text('Number: ${minedBlock.number}',
+              style: Theme.of(context).textTheme.bodyText1),
+          Text('Miner: ${minedBlock.miner}',
+              style: Theme.of(context).textTheme.bodyText1),
+          Text('Date: ${minedBlock.time}',
+              style: Theme.of(context).textTheme.bodyText1),
         ],
       ),
     );

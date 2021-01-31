@@ -14,24 +14,37 @@ class PoolBloc extends Bloc<PoolEvent, PoolState> {
   Stream<PoolState> mapEventToState(PoolEvent event) async* {
     if (event is PoolInitEvent) {
       yield PoolLoadingState();
-      final PoolData poolData = await poolRepo.getPoolStats();
       updatePoolData();
-      yield PoolLoadedState(poolData);
     }
 
     if (event is PoolUpdateEvent) {
       yield PoolLoadedState(event.poolData);
+    }
+
+    if (event is PoolNoConnectionEvent) {
+      yield PoolNoConnectionState();
+    }
+    
+    if (event is PoolErrorEvent) {
+      yield PoolErrorState(event.appError);
     }
   }
 
   void updatePoolData() async {
     final i = 0;
     do {
+      try {
+        print('Getting pool data...');
+        final PoolData poolData = await poolRepo.getPoolStats();
+        add(PoolUpdateEvent(poolData));
+        print('Pool data updated!!!');
+      } catch (e) {
+        if(e == AppError.connectionTimeout() || e == AppError.noConnection()){
+          add(PoolNoConnectionEvent());
+        }
+        add(PoolErrorEvent(e));
+      }
       await Future.delayed(Duration(minutes: poolDataRefreshRate));
-      print('Getting pool data...');
-      final PoolData poolData = await poolRepo.getPoolStats();
-      add(PoolUpdateEvent(poolData));
-      print('Pool data updated!!!');
     } while (i == 0);
   }
 }
