@@ -31,7 +31,7 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
         return list1.add(num.parse(number).toDouble());
       });
       yield ChartDataState(list1);
-      updateChoinHistories();
+      updateCoinHistories();
     }
 
     if (event is ChartOneDayPeriodEvent) {
@@ -88,26 +88,46 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
       _selectedPeriod = CoinHistoriesPeriod.FIVEYEARS;
       yield ChartDataState(list6);
     }
+
+    if (event is ChartNoConnectionEvent) {
+      yield ChartNoConnectionState();
+    }
+
+    if (event is ChartErrorEvent) {
+      yield ChartErrorState(event.appError);
+    }
   }
 
   Future<void> getCoinsHistories() async {
-    oneDayPeriod.clear();
-    oneDayPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.ONEDAY);
-    await Future.delayed(Duration(milliseconds: 200));
-    oneWeekPeriod.clear();
-    oneWeekPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.ONEWEEK);
-    await Future.delayed(Duration(milliseconds: 200));
-    oneMonthPeriod.clear();
-    oneMonthPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.ONEMONTH);
-    await Future.delayed(Duration(milliseconds: 200));
-    oneYearPeriod.clear();
-    oneYearPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.ONEYEAR);
-    await Future.delayed(Duration(milliseconds: 200));
-    fiveYearsPeriod.clear();
-    fiveYearsPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.FIVEYEARS);
+    try {
+      oneDayPeriod.clear();
+      oneDayPeriod = await coinHistoryRepo.getCoinHistoriesList(
+          coinId, CoinHistoriesPeriod.ONEDAY);
+      await Future.delayed(Duration(milliseconds: 200));
+      oneWeekPeriod.clear();
+      oneWeekPeriod = await coinHistoryRepo.getCoinHistoriesList(
+          coinId, CoinHistoriesPeriod.ONEWEEK);
+      await Future.delayed(Duration(milliseconds: 200));
+      oneMonthPeriod.clear();
+      oneMonthPeriod = await coinHistoryRepo.getCoinHistoriesList(
+          coinId, CoinHistoriesPeriod.ONEMONTH);
+      await Future.delayed(Duration(milliseconds: 200));
+      oneYearPeriod.clear();
+      oneYearPeriod = await coinHistoryRepo.getCoinHistoriesList(
+          coinId, CoinHistoriesPeriod.ONEYEAR);
+      await Future.delayed(Duration(milliseconds: 200));
+      fiveYearsPeriod.clear();
+      fiveYearsPeriod = await coinHistoryRepo.getCoinHistoriesList(
+          coinId, CoinHistoriesPeriod.FIVEYEARS);
+    } catch (e) {
+      if (e == AppError.connectionTimeout() || e == AppError.noConnection()) {
+        add(ChartNoConnectionEvent());
+      }
+      add(ChartErrorEvent(e));
+    }
   }
 
-  void updateChoinHistories() async {
+  void updateCoinHistories() async {
     final i = 0;
     do {
       await Future.delayed(Duration(minutes: coinsHistoriesRefreshRate));

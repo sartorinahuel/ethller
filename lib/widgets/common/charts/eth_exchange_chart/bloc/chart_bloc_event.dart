@@ -16,3 +16,11 @@ class ChartOneMonthPeriodEvent extends ChartBlocEvent {}
 class ChartOneYearPeriodEvent extends ChartBlocEvent {}
 
 class ChartFiveYearsPeriodEvent extends ChartBlocEvent {}
+
+class ChartNoConnectionEvent extends ChartBlocEvent {}
+
+class ChartErrorEvent extends ChartBlocEvent {
+  final AppError appError;
+
+  ChartErrorEvent(this.appError);
+}

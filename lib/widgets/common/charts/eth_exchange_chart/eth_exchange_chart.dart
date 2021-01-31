@@ -39,10 +39,16 @@ class _ChartBox extends StatelessWidget {
       child: BlocBuilder<ChartBloc, ChartBlocState>(
         builder: (BuildContext context, state) {
           if (state is ChartDataState) {
-            final double avgChange = (state.chartValues.last - state.chartValues.first) * 100 / state.chartValues.first;
+            final double avgChange =
+                (state.chartValues.last - state.chartValues.first) *
+                    100 /
+                    state.chartValues.first;
             return Column(
               children: [
-                ChartHeader(coinId: coinId, price: state.chartValues.last, activeChange: avgChange),
+                ChartHeader(
+                    coinId: coinId,
+                    price: state.chartValues.last,
+                    activeChange: avgChange),
                 SizedBox(height: 10),
                 Chart(
                   data: state.chartValues,
@@ -52,6 +58,15 @@ class _ChartBox extends StatelessWidget {
               ],
             );
           }
+
+          if (state is ChartNoConnectionState) {
+            return Center(child: Text('No internet connection'));
+          }
+
+          if (state is ChartErrorState) {
+            return Center(child: Text(state.appError.message));
+          }
+          
           return Center(child: CircularProgressIndicator());
         },
       ),

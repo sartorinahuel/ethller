@@ -12,3 +12,11 @@ class ChartDataState extends ChartBlocState {
 
   ChartDataState(this.chartValues);
 }
+
+class ChartNoConnectionState extends ChartBlocState {}
+
+class ChartErrorState extends ChartBlocState {
+  final AppError appError;
+
+  ChartErrorState(this.appError);
+}
