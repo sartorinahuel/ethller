@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0-nullsafety.1"
+  auto_size_text:
+    dependency: "direct main"
+    description:
+      name: auto_size_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   bloc:
     dependency: "direct main"
     description:
@@ -181,7 +188,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "01f509f524ac7685c57f795846e39f69053efca9"
+      resolved-ref: "13415f4ca850ccbcbf8eeda40359c33c35baea71"
       url: "https://github.com/sartorinahuel/ethller_api_interface.git"
     source: git
     version: "0.0.0"

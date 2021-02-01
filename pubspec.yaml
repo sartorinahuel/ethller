@@ -27,6 +27,7 @@ dependencies:
     git:
       url: https://github.com/sartorinahuel/ethller_api_interface.git
   animate_do: ^1.7.5
+  auto_size_text: ^2.1.0
   bloc: ^6.1.1
   clipboard: ^0.1.2+8
   cupertino_icons: ^1.0.0
@@ -50,7 +51,6 @@ flutter_icons:
   image_path_ios: "assets/imgs/logo.png"
   adaptive_icon_background: "assets/imgs/logo-background.png"
   adaptive_icon_foreground: "assets/imgs/foreground.png"
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

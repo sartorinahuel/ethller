@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
+
 class SpinnerIndicator extends StatefulWidget {
   final int denominator;
   final int numerator;
@@ -93,19 +95,20 @@ class _SpinnerIndicatorState extends State<SpinnerIndicator>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          AutoSizeText(
                             widget.numerator.toString(),
-                            style: TextStyle(
-                              color: Colors.grey[500],
-                              fontSize: 20,
-                            ),
+                            maxFontSize: 17,
+                            minFontSize: 10,
+                            maxLines: 1,
+                            style: TextStyle(color: Colors.grey[500]),
                           ),
-                          if(widget.numerator <= 99)Text(
-                            '/${widget.denominator.toString()}',
-                            style: TextStyle(
-                              color: Colors.grey[500],
+                          if (widget.numerator <= 99)
+                            Text(
+                              '/${widget.denominator.toString()}',
+                              style: TextStyle(
+                                color: Colors.grey[500],
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     )

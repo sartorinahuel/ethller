@@ -22,6 +22,7 @@ class MinersBloc extends Bloc<MinersEvent, MinersState> {
     }
 
     if (event is MinersRemoveMinersEvent) {
+      updateTrigger = false;
       yield MinersInitial();
     }
 
