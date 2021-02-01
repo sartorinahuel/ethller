@@ -79,6 +79,7 @@ class _MinerBoxList extends StatelessWidget {
     return BlocBuilder<MinersBloc, MinersState>(
       builder: (context, state) {
         if (state is MinersLoadedState) {
+          //TODO Connect to real data.
           return ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
