@@ -42,13 +42,6 @@ class MinersBloc extends Bloc<MinersEvent, MinersState> {
         add(MinersUpdateEvent(miner));
         print('Miners Data Updated!!!');
       } catch (e) {
-        if(e == AppError.connectionTimeout() || e == AppError.noConnection()){
-          add(MinersNoConnectionEvent());
-        }
-        if(e == AppError.walletNotFound()){
-          print(e.message);
-          add(MinersWalletNotFoundEvent());
-        }
         add(MinersErrorEvent(e));
       }
       await Future.delayed(Duration(minutes: minersDataRefreshRate));

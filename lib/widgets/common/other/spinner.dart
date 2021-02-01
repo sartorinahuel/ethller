@@ -100,7 +100,7 @@ class _SpinnerIndicatorState extends State<SpinnerIndicator>
                               fontSize: 20,
                             ),
                           ),
-                          Text(
+                          if(widget.numerator <= 99)Text(
                             '/${widget.denominator.toString()}',
                             style: TextStyle(
                               color: Colors.grey[500],

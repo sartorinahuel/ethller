@@ -7,20 +7,17 @@ import 'package:url_launcher/url_launcher.dart';
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final snackBar = SnackBar(content: Text('Wallet deleted!', style: TextStyle(fontSize: 22)));
-
-    _launchURL(url) async {
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
+    //Snackbar that is shown when [Remove wallet] is pressed
+    final snackBar = SnackBar(
+        content: Text('Wallet deleted!', style: TextStyle(fontSize: 22)));
 
     return Scaffold(
-      appBar: AppBar(title: Text('Settings')),
+      appBar: AppBar(
+        title: Text('Settings', style: Theme.of(context).textTheme.headline2),
+      ),
       body: Stack(
         children: [
+          //ShowSnackBar method need this Builder to work
           Builder(
             builder: (BuildContext context) => SingleChildScrollView(
               child: Column(
@@ -29,44 +26,13 @@ class SettingsPage extends StatelessWidget {
                   _SettingsItem(
                       title: 'Remove wallet',
                       onTap: () {
-                        BlocProvider.of<WalletBloc>(context).add(WalletRemoveWalletEvent());
+                        BlocProvider.of<WalletBloc>(context)
+                            .add(WalletRemoveWalletEvent());
                         Scaffold.of(context).showSnackBar(snackBar);
                       }),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Text(
-                      'I made this app just for love for the art. It´s made with Flutter. The code is OpenSource and you can download it from the link below.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        wordSpacing: 5,
-                        height: 2,
-                      ),
-                    ),
-                  ),
+                  _Memo(),
                   SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GradientButton(
-                        child: Text(
-                          'Link',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        height: 60,
-                        isButton: true,
-                        width: 150,
-                        onPressed: () {
-                          _launchURL('https://github.com/sartorinahuel/ethller');
-                        },
-                      ),
-                    ],
-                  ),
+                  _LinkButton(),
                   SizedBox(height: 20),
                   _SettingsItem(
                     title: 'Buy me a coffee!',
@@ -77,13 +43,57 @@ class SettingsPage extends StatelessWidget {
                       onTap: () {
                         _launchURL('https://twitter.com/NahuelDev');
                       }),
-                  // _SettingsItem(title: 'About this app', onTap: () {}),
                 ],
               ),
             ),
           ),
-          // _SettingsHeader()
         ],
+      ),
+    );
+  }
+}
+
+class _LinkButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GradientButton(
+          child: Text(
+            'Link',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          height: 60,
+          isButton: true,
+          width: 150,
+          onPressed: () {
+            _launchURL('https://github.com/sartorinahuel/ethller');
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _Memo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Text(
+        'I did this app for the love of art. It´s made with Flutter. The code is OpenSource and you can download it from the link below.',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          wordSpacing: 5,
+          height: 2,
+        ),
       ),
     );
   }
@@ -147,3 +157,13 @@ class _SettingsItem extends StatelessWidget {
     );
   }
 }
+
+//=======URL Launcher==================
+void _launchURL(url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+//=======URL Launcher==================

@@ -100,6 +100,7 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
 
   Future<void> getCoinsHistories() async {
     try {
+      await coinRepo.getCoins();
       oneDayPeriod.clear();
       oneDayPeriod = await coinHistoryRepo.getCoinHistoriesList(
           coinId, CoinHistoriesPeriod.ONEDAY);

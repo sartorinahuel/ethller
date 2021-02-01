@@ -40,8 +40,11 @@ class WalletSummary extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            state.wallet.balance.toStringAsFixed(5),
+                            state.wallet.balance > 100
+                                ? state.wallet.balance.toStringAsFixed(2)
+                                : state.wallet.balance.toStringAsFixed(5),
                             style: TextStyle(color: Colors.white, fontSize: 22),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
                             ' ETH',
@@ -53,11 +56,13 @@ class WalletSummary extends StatelessWidget {
                         children: [
                           Text(
                             state.wallet.inBTC.toStringAsFixed(5),
-                            style: TextStyle(color: Colors.grey[500], fontSize: 14),
+                            style: TextStyle(
+                                color: Colors.grey[500], fontSize: 14),
                           ),
                           Text(
                             ' BTC',
-                            style: TextStyle(color: Colors.grey[500], fontSize: 13),
+                            style: TextStyle(
+                                color: Colors.grey[500], fontSize: 13),
                           ),
                         ],
                       ),
@@ -65,11 +70,13 @@ class WalletSummary extends StatelessWidget {
                         children: [
                           Text(
                             state.wallet.inUSD.toStringAsFixed(2),
-                            style: TextStyle(color: Colors.grey[500], fontSize: 14),
+                            style: TextStyle(
+                                color: Colors.grey[500], fontSize: 14),
                           ),
                           Text(
                             ' USD',
-                            style: TextStyle(color: Colors.grey[500], fontSize: 13),
+                            style: TextStyle(
+                                color: Colors.grey[500], fontSize: 13),
                           ),
                         ],
                       ),
@@ -79,15 +86,21 @@ class WalletSummary extends StatelessWidget {
               );
             }
             if (state is WalletInitial) {
-              return Center(child: Text('No Wallet Added', style: Theme.of(context).textTheme.bodyText1));
+              return Center(
+                  child: Text('No Wallet Added',
+                      style: Theme.of(context).textTheme.bodyText1));
             }
 
             if (state is WalletErrorState) {
-              return Center(child: Text('Error: try to reload', style: Theme.of(context).textTheme.bodyText1));
+              return Center(
+                  child: Text('Error: try to reload',
+                      style: Theme.of(context).textTheme.bodyText1));
             }
-            
+
             if (state is WalletNoConnectionState) {
-              return Center(child: Text('No internet Connection', style: Theme.of(context).textTheme.bodyText1));
+              return Center(
+                  child: Text('No internet Connection',
+                      style: Theme.of(context).textTheme.bodyText1));
             }
 
             return Center(child: CircularProgressIndicator());

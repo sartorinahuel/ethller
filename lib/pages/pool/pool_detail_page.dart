@@ -68,19 +68,19 @@ class _PoolStatsContainer extends StatelessWidget {
         children: [
           Text(
             'Total Hashrate: ${poolData.hashRate.toStringAsFixed(2)} TH/s',
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyText2,
           ),
           Text(
             'Total miners: ${poolData.miners}',
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyText2,
           ),
           Text(
             'Total workers: ${poolData.workers}',
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyText2,
           ),
           Text(
             'Blocks per hour: ${poolData.blocksPerHour.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyText2,
           ),
         ],
       ),
