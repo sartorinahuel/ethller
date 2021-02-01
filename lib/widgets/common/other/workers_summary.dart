@@ -55,12 +55,17 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        state.miner.currentStats.currentHashrate
-                            .toStringAsFixed(2),
+                        state.miner.currentStats.currentHashrate > 1024
+                            ? (state.miner.currentStats.currentHashrate / 1024)
+                                .toStringAsFixed(3)
+                            : state.miner.currentStats.currentHashrate
+                                .toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(
-                        ' MH/s',
+                        state.miner.currentStats.currentHashrate > 1024
+                            ? ' GH/s'
+                            : ' MH/s',
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
@@ -90,12 +95,17 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        state.miner.currentStats.reportedHashrate
-                            .toStringAsFixed(2),
+                        state.miner.currentStats.reportedHashrate > 1024
+                            ? (state.miner.currentStats.reportedHashrate / 1024)
+                                .toStringAsFixed(3)
+                            : state.miner.currentStats.reportedHashrate
+                                .toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(
-                        ' MH/s',
+                        state.miner.currentStats.reportedHashrate > 1024
+                            ? ' GH/s'
+                            : ' MH/s',
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
@@ -125,12 +135,17 @@ class WorkersSummary extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        state.miner.currentStats.averageHashrate
-                            .toStringAsFixed(2),
+                        state.miner.currentStats.averageHashrate > 1024
+                            ? (state.miner.currentStats.averageHashrate / 1024)
+                                .toStringAsFixed(3)
+                            : state.miner.currentStats.averageHashrate
+                                .toStringAsFixed(2),
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       Text(
-                        ' MH/s',
+                        state.miner.currentStats.averageHashrate > 1024
+                            ? ' GH/s'
+                            : ' MH/s',
                         style: TextStyle(color: Colors.grey[300], fontSize: 11),
                       ),
                       Container(
@@ -289,19 +304,13 @@ class WorkersSummary extends StatelessWidget {
           );
         }
 
-        if (state is MinersWalletNotFoundState) {
-          return CustomContainer(
-              child: Center(child: Text('Couldn´t find wallet in Ethermine pool')));
-        }
-
-        if (state is MinersNoConnectionState) {
-          return CustomContainer(
-              child: Center(child: Text('No connection')));
-        }
-
         if (state is MinersErrorState) {
           return CustomContainer(
-              child: Center(child: Text(state.appError.message)));
+              child: Center(
+                  child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Text(state.appError.message),
+          )));
         }
 
         return CustomContainer(

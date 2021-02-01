@@ -7,6 +7,7 @@ import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/widgets/common/buttons/gradient_button.dart';
 import 'package:ethller/widgets/common/other/custom_imput.dart';
 import 'package:ethller_api_interface/ethller_api_interface.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -17,13 +18,18 @@ class AddWalletPage extends StatefulWidget {
 }
 
 class _AddWalletPageState extends State<AddWalletPage> {
+  //Snackbar that is shown when [Remove wallet] is pressed
   final snackBar = SnackBar(
       content: Text('invalid Wallet!', style: TextStyle(fontSize: 22)));
+
   TextEditingController _editingController = new TextEditingController();
+  String text = '';
+
+  //=====QR Code Scanner tools========================
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode result;
   QRViewController controller;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  String text = '';
+  //=====QR Code Scanner tools========================
 
   @override
   void dispose() {
@@ -36,7 +42,12 @@ class _AddWalletPageState extends State<AddWalletPage> {
   Widget build(BuildContext ccc) {
     return Scaffold(
       backgroundColor: Color(0xFF16162f),
-      appBar: AppBar(title: Text('Add Wallet')),
+      appBar: AppBar(
+        title: Text(
+          'Add Wallet',
+          style: Theme.of(context).textTheme.headline2,
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -47,12 +58,9 @@ class _AddWalletPageState extends State<AddWalletPage> {
                 if (Platform.isAndroid || Platform.isIOS)
                   Text(
                     'Add your wallet scanning the QR code or pasteing the address',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
-                if (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
+                if (Platform.isWindows || Platform.isLinux || Platform.isMacOS || kIsWeb)
                   Text(
                     'Add your wallet pasteing the address',
                     style: TextStyle(
@@ -112,7 +120,6 @@ class _AddWalletPageState extends State<AddWalletPage> {
                         if (_editingController.text.isNotEmpty) {
                           text = _editingController.text;
                           if (isValidEthereumAddress(text)) {
-                            walletUID = text;
                             BlocProvider.of<WalletBloc>(context)
                                 .add(WalletInitEvent(text));
                             BlocProvider.of<MinersBloc>(context)
