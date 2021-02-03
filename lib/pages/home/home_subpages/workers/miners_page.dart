@@ -42,15 +42,16 @@ class MinersPage extends StatelessWidget {
                     child: WorkersSummary(),
                   ),
                 ),
-                SizedBox(height: 20, width: double.infinity),
+                SizedBox(height: 10, width: double.infinity),
+                _PoolStatsButton(size: size),
+                SizedBox(height: 40, width: double.infinity),
                 FadeIn(
                   duration: Duration(milliseconds: 300),
                   child: SlideInUp(
                     delay: Duration(milliseconds: 100),
                     from: size.height - 100,
                     duration: Duration(milliseconds: 300),
-                    child: Text('Miners',
-                        style: Theme.of(context).textTheme.headline2),
+                    child: Text('Miners', style: Theme.of(context).textTheme.headline2),
                   ),
                 ),
                 FadeIn(
@@ -62,8 +63,7 @@ class MinersPage extends StatelessWidget {
                     child: _MinerBoxList(),
                   ),
                 ),
-                SizedBox(height: 10),
-                _PoolStatsButton(size: size),
+                SizedBox(height: 60, width: double.infinity),
               ],
             ),
           ),
@@ -79,13 +79,13 @@ class _MinerBoxList extends StatelessWidget {
     return BlocBuilder<MinersBloc, MinersState>(
       builder: (context, state) {
         if (state is MinersLoadedState) {
-          //TODO Connect to real data.
-          return ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: state.miner.history.first.activeWorkers,
-              itemBuilder: (BuildContext context, int index) =>
-                  _MinerBoxItem());
+          return Container(
+            child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: state.miner.workers.length,
+                itemBuilder: (BuildContext context, int index) => _MinerBoxItem(worker: state.miner.workers[index])),
+          );
         }
         return Center(child: Text('No Miners'));
       },
@@ -94,8 +94,11 @@ class _MinerBoxList extends StatelessWidget {
 }
 
 class _MinerBoxItem extends StatelessWidget {
+  final Workers worker;
+
   const _MinerBoxItem({
     Key key,
+    this.worker,
   }) : super(key: key);
 
   @override
@@ -112,25 +115,24 @@ class _MinerBoxItem extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(bottom: 15, left: 20, right: 20, top: 10),
+            padding: const EdgeInsets.only(bottom: 15, left: 20, right: 20, top: 10),
             child: Column(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Rig0', //TODO put real data
+                      worker.worker,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 17,
+                        fontSize: 20,
                       ),
                     ),
                     Spacer(),
                     SpinnerIndicator(
                       radius: 25,
                       showCenterData: false,
-                      numerator: 259 > 0 ? 1 : 0, //TODO put real data
+                      numerator: worker.currentHashrate > 0 ? 1 : 0,
                       denominator: 1,
                     ),
                   ],
@@ -139,8 +141,8 @@ class _MinerBoxItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Cur.:',
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      'Current hashrate:',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                     Spacer(),
                     Row(
@@ -148,7 +150,9 @@ class _MinerBoxItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: [
                         Text(
-                          '261',
+                          worker.currentHashrate > 999
+                              ? (worker.currentHashrate / 1000).toStringAsFixed(2)
+                              : worker.currentHashrate.toStringAsFixed(2),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 21,
@@ -156,7 +160,7 @@ class _MinerBoxItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'MH/s',
+                          worker.currentHashrate > 999 ? ' GH/s' : ' MH/s',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 9,
@@ -170,8 +174,8 @@ class _MinerBoxItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Rep.:',
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      'Reported hashrate:',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                     Spacer(),
                     Row(
@@ -179,7 +183,9 @@ class _MinerBoxItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: [
                         Text(
-                          '245',
+                          worker.reportedHashrate > 999
+                              ? (worker.reportedHashrate / 1000).toStringAsFixed(2)
+                              : worker.reportedHashrate.toStringAsFixed(2),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 21,
@@ -187,7 +193,7 @@ class _MinerBoxItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'MH/s',
+                          worker.reportedHashrate > 999 ? ' GH/s' : ' MH/s',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 9,
@@ -201,8 +207,8 @@ class _MinerBoxItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Avg.:',
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      'Average hashrate:',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                     Spacer(),
                     Row(
@@ -210,7 +216,9 @@ class _MinerBoxItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: [
                         Text(
-                          '251',
+                          worker.averageHashrate > 999
+                              ? (worker.averageHashrate / 1000).toStringAsFixed(2)
+                              : worker.averageHashrate.toStringAsFixed(2),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 21,
@@ -218,7 +226,7 @@ class _MinerBoxItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'MH/s',
+                          worker.averageHashrate > 999 ? ' GH/s' : ' MH/s',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 9,
