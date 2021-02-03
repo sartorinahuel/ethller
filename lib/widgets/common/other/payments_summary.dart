@@ -54,9 +54,13 @@ class _PaymentSummaryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     double unpaidBalance = 0;
     double porcentaje = 0;
+    double usdPerMin = 0;
+    double btcPerMin = 0;
     if (miner != null) {
-      unpaidBalance = (miner.currentStats.unpaid ?? 0);
+      unpaidBalance = (miner.currentStats?.unpaid ?? 0);
       porcentaje = (unpaidBalance * 100) / miner.minPayout;
+      usdPerMin = miner.currentStats.usdPerMin;
+      btcPerMin = miner.currentStats.btcPerMin;
     }
     return Column(
       children: [
@@ -131,7 +135,7 @@ class _PaymentSummaryItem extends StatelessWidget {
                     children: [
                       Text('Day: '),
                       Text(
-                        '\$${(miner.currentStats.usdPerMin * 1440).toStringAsFixed(2)}',
+                        '\$${(usdPerMin * 1440).toStringAsFixed(2)}',
                         style: TextStyle(
                           color: Color(0xff02d39a),
                         ),
@@ -144,7 +148,7 @@ class _PaymentSummaryItem extends StatelessWidget {
                     children: [
                       Text('Week: '),
                       Text(
-                        '\$${(miner.currentStats.usdPerMin * 10080).toStringAsFixed(2)}',
+                        '\$${(usdPerMin * 10080).toStringAsFixed(2)}',
                         style: TextStyle(
                           color: Color(0xff02d39a),
                         ),
@@ -157,7 +161,7 @@ class _PaymentSummaryItem extends StatelessWidget {
                     children: [
                       Text('Month: '),
                       Text(
-                        '\$${(miner.currentStats.usdPerMin * 43200).toStringAsFixed(2)}',
+                        '\$${(usdPerMin * 43200).toStringAsFixed(2)}',
                         style: TextStyle(
                           color: Color(0xff02d39a),
                         ),
@@ -176,21 +180,21 @@ class _PaymentSummaryItem extends StatelessWidget {
                   Row(
                     children: [
                       Text('Day: '),
-                      Text('${(miner.currentStats.btcPerMin * 1440).toStringAsFixed(5)}'),
+                      Text('${(btcPerMin * 1440).toStringAsFixed(5)}'),
                     ],
                   ),
                   SizedBox(height: 4),
                   Row(
                     children: [
                       Text('Week: '),
-                      Text('${(miner.currentStats.btcPerMin * 10080).toStringAsFixed(5)}'),
+                      Text('${(btcPerMin * 10080).toStringAsFixed(5)}'),
                     ],
                   ),
                   SizedBox(height: 4),
                   Row(
                     children: [
                       Text('Month: '),
-                      Text('${(miner.currentStats.btcPerMin * 43200).toStringAsFixed(5)}'),
+                      Text('${(btcPerMin * 43200).toStringAsFixed(5)}'),
                     ],
                   ),
                 ],

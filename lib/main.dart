@@ -20,10 +20,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Color(0xFF16162F),
+    ));
+
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (_) => ChartBloc('razxDUgYGNAdQ')..add(ChartInitEvent())),
+        BlocProvider(create: (_) => ChartBloc('razxDUgYGNAdQ')..add(ChartInitEvent())),
         BlocProvider(create: (_) => PoolBloc()..add(PoolInitEvent())),
         BlocProvider(create: (_) => MinersBloc()),
         BlocProvider(create: (context) => WalletBloc(context)),

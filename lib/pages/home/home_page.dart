@@ -13,9 +13,9 @@ class HomePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => HomePageSubPagesProvider(),
       child: Builder(builder: (BuildContext context) {
-        final currentPage =
-            Provider.of<HomePageSubPagesProvider>(context).currentPage;
+        final currentPage = Provider.of<HomePageSubPagesProvider>(context).currentPage;
         return Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Container(
             height: double.infinity,
             width: double.infinity,

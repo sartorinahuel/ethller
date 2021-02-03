@@ -78,7 +78,7 @@ class _MinersSummaryData extends StatelessWidget {
     }
 
     return CustomContainer(
-      height: 315,
+      height: miner != null ? 315 : 180,
       child: Stack(
         children: [
           Column(
@@ -102,24 +102,25 @@ class _MinersSummaryData extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            height: 315,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Column(
-                children: [
-                  SizedBox(height: 165),
-                  TripleLineChart(
-                    data: [
-                      currentHashValues,
-                      reportedHashValues,
-                      averageHashValues,
-                    ],
-                  ),
-                ],
+          if (miner != null)
+            Container(
+              height: 315,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Column(
+                  children: [
+                    SizedBox(height: 165),
+                    TripleLineChart(
+                      data: [
+                        currentHashValues,
+                        reportedHashValues,
+                        averageHashValues,
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
