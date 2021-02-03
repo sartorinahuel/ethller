@@ -8,8 +8,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Snackbar that is shown when [Remove wallet] is pressed
-    final snackBar = SnackBar(
-        content: Text('Wallet deleted!', style: TextStyle(fontSize: 22)));
+    final snackBar = SnackBar(content: Text('Wallet deleted!', style: TextStyle(fontSize: 22)));
 
     return Scaffold(
       appBar: AppBar(
@@ -26,8 +25,7 @@ class SettingsPage extends StatelessWidget {
                   _SettingsItem(
                       title: 'Remove wallet',
                       onTap: () {
-                        BlocProvider.of<WalletBloc>(context)
-                            .add(WalletRemoveWalletEvent());
+                        BlocProvider.of<WalletBloc>(context).add(WalletRemoveWalletEvent());
                         Scaffold.of(context).showSnackBar(snackBar);
                       }),
                   _Memo(),

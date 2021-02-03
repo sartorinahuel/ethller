@@ -66,7 +66,6 @@ class _MinersSummaryData extends StatelessWidget {
       averageHashValues = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     } else {
       for (var item in miner.history) {
-        print(item.time);
         currentHashValues.add(item.currentHashrate);
         reportedHashValues.add(item.reportedHashrate);
         averageHashValues.add(item.averageHashrate);
@@ -76,7 +75,6 @@ class _MinersSummaryData extends StatelessWidget {
       currentHashrate = miner.currentStats.currentHashrate;
       reportedHashrate = miner.currentStats.reportedHashrate;
       averageHashrate = miner.currentStats.averageHashrate;
-      print(miner.history.length);
     }
 
     return CustomContainer(
