@@ -3,7 +3,7 @@ import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/widgets/common/charts/eth_exchange_chart/bloc/chart_bloc.dart';
 import 'package:ethller/widgets/common/other/payments_summary.dart';
 import 'package:ethller/widgets/common/other/wallet_summary.dart';
-import 'package:ethller/widgets/common/other/workers_summary.dart';
+import 'package:ethller/widgets/common/other/workers/workers_summary.dart';
 import 'package:ethller_api_interface/ethller_api_interface.dart';
 import 'package:flutter/material.dart';
 
@@ -25,13 +25,10 @@ class GeneralPage extends StatelessWidget {
           displacement: 30,
           onRefresh: () async {
             // coinRepo.getCoins();
-            BlocProvider.of<ChartBloc>(context)
-                .add(ChartInitEvent());
+            BlocProvider.of<ChartBloc>(context).add(ChartInitEvent());
             if (walletUID != '') {
-              BlocProvider.of<WalletBloc>(context)
-                  .add(WalletInitEvent(walletUID));
-              BlocProvider.of<MinersBloc>(context)
-                  .add(MinersInitEvent(walletUID));
+              BlocProvider.of<WalletBloc>(context).add(WalletInitEvent(walletUID));
+              BlocProvider.of<MinersBloc>(context).add(MinersInitEvent(walletUID));
             }
             print('Done refresh');
           },
@@ -45,8 +42,7 @@ class GeneralPage extends StatelessWidget {
                   child: SlideInUp(
                     from: size.height - 100,
                     duration: Duration(milliseconds: 300),
-                    child: ExchangeChart(
-                        key: UniqueKey(), coinId: 'razxDUgYGNAdQ'),
+                    child: ExchangeChart(key: UniqueKey(), coinId: 'razxDUgYGNAdQ'),
                   ),
                 ),
                 FadeIn(

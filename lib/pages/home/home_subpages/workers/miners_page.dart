@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/widgets/common/other/custom_container.dart';
 import 'package:ethller/widgets/common/other/spinner.dart';
-import 'package:ethller/widgets/common/other/workers_summary.dart';
+import 'package:ethller/widgets/common/other/workers/workers_summary.dart';
 import 'package:ethller_api_interface/ethller_api_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
