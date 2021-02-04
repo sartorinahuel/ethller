@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ethller/pages/home/home_subpages/workers/bloc/miners_bloc.dart';
 import 'package:ethller/widgets/common/other/custom_container.dart';
 import 'package:ethller/widgets/common/other/spinner.dart';
@@ -44,7 +45,7 @@ class MinersPage extends StatelessWidget {
                 ),
                 SizedBox(height: 10, width: double.infinity),
                 _PoolStatsButton(size: size),
-                SizedBox(height: 40, width: double.infinity),
+                SizedBox(height: 10, width: double.infinity),
                 FadeIn(
                   duration: Duration(milliseconds: 300),
                   child: SlideInUp(
@@ -79,13 +80,12 @@ class _MinerBoxList extends StatelessWidget {
     return BlocBuilder<MinersBloc, MinersState>(
       builder: (context, state) {
         if (state is MinersLoadedState) {
-          return Container(
-            child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: state.miner.workers.length,
-                itemBuilder: (BuildContext context, int index) => _MinerBoxItem(worker: state.miner.workers[index])),
-          );
+          return ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.all(0),
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: state.miner.workers.length,
+              itemBuilder: (BuildContext context, int index) => _MinerBoxItem(worker: state.miner.workers[index]));
         }
         return Center(child: Text('No Miners'));
       },
@@ -105,140 +105,126 @@ class _MinerBoxItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
       height: 150,
-      child: Stack(
+      padding: const EdgeInsets.only(bottom: 15, left: 20, right: 20, top: 10),
+      child: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Opacity(
-              opacity: 0.5,
-              // child: EthExchangeRateChart(),
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                worker.worker,
+                style: TextStyle(color: Colors.white, fontSize: 25),
+                minFontSize: 18,
+                maxFontSize: 25,
+              ),
+              Spacer(),
+              SpinnerIndicator(
+                radius: 25,
+                showCenterData: false,
+                numerator: worker.currentHashrate > 0 ? 1 : 0,
+                denominator: 1,
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15, left: 20, right: 20, top: 10),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      worker.worker,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
+          Spacer(),
+          Row(
+            children: [
+              Text(
+                'Current hashrate:',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                children: [
+                  Text(
+                    worker.currentHashrate > 999
+                        ? (worker.currentHashrate / 1000).toStringAsFixed(2)
+                        : worker.currentHashrate.toStringAsFixed(2),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Spacer(),
-                    SpinnerIndicator(
-                      radius: 25,
-                      showCenterData: false,
-                      numerator: worker.currentHashrate > 0 ? 1 : 0,
-                      denominator: 1,
+                  ),
+                  Text(
+                    worker.currentHashrate > 999 ? ' GH/s' : ' MH/s',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.w300,
                     ),
-                  ],
-                ),
-                Spacer(),
-                Row(
-                  children: [
-                    Text(
-                      'Current hashrate:',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Reported hashrate:',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                children: [
+                  Text(
+                    worker.reportedHashrate > 999
+                        ? (worker.reportedHashrate / 1000).toStringAsFixed(2)
+                        : worker.reportedHashrate.toStringAsFixed(2),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      children: [
-                        Text(
-                          worker.currentHashrate > 999
-                              ? (worker.currentHashrate / 1000).toStringAsFixed(2)
-                              : worker.currentHashrate.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          worker.currentHashrate > 999 ? ' GH/s' : ' MH/s',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
+                  ),
+                  Text(
+                    worker.reportedHashrate > 999 ? ' GH/s' : ' MH/s',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.w300,
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Reported hashrate:',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Average hashrate:',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                children: [
+                  Text(
+                    worker.averageHashrate > 999
+                        ? (worker.averageHashrate / 1000).toStringAsFixed(2)
+                        : worker.averageHashrate.toStringAsFixed(2),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      children: [
-                        Text(
-                          worker.reportedHashrate > 999
-                              ? (worker.reportedHashrate / 1000).toStringAsFixed(2)
-                              : worker.reportedHashrate.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          worker.reportedHashrate > 999 ? ' GH/s' : ' MH/s',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
+                  ),
+                  Text(
+                    worker.averageHashrate > 999 ? ' GH/s' : ' MH/s',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.w300,
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Average hashrate:',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      children: [
-                        Text(
-                          worker.averageHashrate > 999
-                              ? (worker.averageHashrate / 1000).toStringAsFixed(2)
-                              : worker.averageHashrate.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          worker.averageHashrate > 999 ? ' GH/s' : ' MH/s',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
