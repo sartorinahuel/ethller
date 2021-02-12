@@ -92,6 +92,30 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     if (event is ChartNoConnectionEvent) {
       yield ChartNoConnectionState();
     }
+    if (event is ChartUpdateEvent) {
+      print(DateTime.now().toString() + ': Getting coins histories...');
+      await getCoinsHistories();
+      print(DateTime.now().toString() + ': Coins histories updates!!!');
+      switch (_selectedPeriod) {
+        case CoinHistoriesPeriod.ONEDAY:
+          add(ChartOneDayPeriodEvent());
+          break;
+        case CoinHistoriesPeriod.ONEWEEK:
+          add(ChartOneWeekPeriodEvent());
+          break;
+        case CoinHistoriesPeriod.ONEMONTH:
+          add(ChartOneMonthPeriodEvent());
+          break;
+        case CoinHistoriesPeriod.ONEYEAR:
+          add(ChartOneYearPeriodEvent());
+          break;
+        case CoinHistoriesPeriod.FIVEYEARS:
+          add(ChartFiveYearsPeriodEvent());
+          break;
+        default:
+          add(ChartOneDayPeriodEvent());
+      }
+    }
 
     if (event is ChartErrorEvent) {
       yield ChartErrorState(event.appError);
@@ -102,24 +126,19 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     try {
       await coinRepo.getCoins();
       oneDayPeriod.clear();
-      oneDayPeriod = await coinHistoryRepo.getCoinHistoriesList(
-          coinId, CoinHistoriesPeriod.ONEDAY);
+      oneDayPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.ONEDAY);
       await Future.delayed(Duration(milliseconds: 200));
       oneWeekPeriod.clear();
-      oneWeekPeriod = await coinHistoryRepo.getCoinHistoriesList(
-          coinId, CoinHistoriesPeriod.ONEWEEK);
+      oneWeekPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.ONEWEEK);
       await Future.delayed(Duration(milliseconds: 200));
       oneMonthPeriod.clear();
-      oneMonthPeriod = await coinHistoryRepo.getCoinHistoriesList(
-          coinId, CoinHistoriesPeriod.ONEMONTH);
+      oneMonthPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.ONEMONTH);
       await Future.delayed(Duration(milliseconds: 200));
       oneYearPeriod.clear();
-      oneYearPeriod = await coinHistoryRepo.getCoinHistoriesList(
-          coinId, CoinHistoriesPeriod.ONEYEAR);
+      oneYearPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.ONEYEAR);
       await Future.delayed(Duration(milliseconds: 200));
       fiveYearsPeriod.clear();
-      fiveYearsPeriod = await coinHistoryRepo.getCoinHistoriesList(
-          coinId, CoinHistoriesPeriod.FIVEYEARS);
+      fiveYearsPeriod = await coinHistoryRepo.getCoinHistoriesList(coinId, CoinHistoriesPeriod.FIVEYEARS);
     } catch (e) {
       if (e == AppError.connectionTimeout() || e == AppError.noConnection()) {
         add(ChartNoConnectionEvent());
@@ -132,9 +151,9 @@ class ChartBloc extends Bloc<ChartBlocEvent, ChartBlocState> {
     final i = 0;
     do {
       await Future.delayed(Duration(minutes: coinsHistoriesRefreshRate));
-      print('Getting coins histories...');
+      print(DateTime.now().toString() + ': Getting coins histories...');
       await getCoinsHistories();
-      print('Coins histories updates!!!');
+      print(DateTime.now().toString() + ': Coins histories updates!!!');
       switch (_selectedPeriod) {
         case CoinHistoriesPeriod.ONEDAY:
           add(ChartOneDayPeriodEvent());

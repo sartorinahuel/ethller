@@ -24,7 +24,7 @@ class PoolBloc extends Bloc<PoolEvent, PoolState> {
     if (event is PoolNoConnectionEvent) {
       yield PoolNoConnectionState();
     }
-    
+
     if (event is PoolErrorEvent) {
       yield PoolErrorState(event.appError);
     }
@@ -34,12 +34,12 @@ class PoolBloc extends Bloc<PoolEvent, PoolState> {
     final i = 0;
     do {
       try {
-        print('Getting pool data...');
+        print(DateTime.now().toString() + ': Getting pool data...');
         final PoolData poolData = await poolRepo.getPoolStats();
         add(PoolUpdateEvent(poolData));
-        print('Pool data updated!!!');
+        print(DateTime.now().toString() + ': Pool data updated!!!');
       } catch (e) {
-        if(e == AppError.connectionTimeout() || e == AppError.noConnection()){
+        if (e == AppError.connectionTimeout() || e == AppError.noConnection()) {
           add(PoolNoConnectionEvent());
         }
         add(PoolErrorEvent(e));

@@ -38,10 +38,10 @@ class MinersBloc extends Bloc<MinersEvent, MinersState> {
   void updateMinerData(String walletId) async {
     do {
       try {
-        print('Getting miners data...');
+        print(DateTime.now().toString() + ': Getting miners data...');
         final miner = await minersRepo.getMinerData(walletId);
         add(MinersUpdateEvent(miner));
-        print('Miners Data Updated!!!');
+        print(DateTime.now().toString() + ': Miners Data Updated!!!');
       } catch (e) {
         add(MinersErrorEvent(e));
       }

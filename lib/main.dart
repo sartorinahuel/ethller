@@ -13,6 +13,8 @@ import 'package:ethller/pages/pool/pool_detail_page.dart';
 import 'package:ethller/pages/settings/settings_page.dart';
 import 'package:ethller/widgets/common/charts/eth_exchange_chart/bloc/chart_bloc.dart';
 
+import 'app_life_cicle_widget.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Ethller',
         theme: ThemeService.darkTheme,
-        home: HomePage(),
+        home: LifeCicleWidget(child: HomePage()),
         routes: {
           '/pool-stats': (context) => PoolStatsPage(),
           '/settings': (context) => SettingsPage(),

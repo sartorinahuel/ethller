@@ -53,11 +53,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
         final wallet = await walletRepo.getWalletData(walletId);
         add(WalletUpdateEvent(wallet));
       } catch (e) {
-        if(e == AppError.connectionTimeout() || e == AppError.noConnection()){
+        if (e == AppError.connectionTimeout() || e == AppError.noConnection()) {
           add(WalletNoConnectionEvent());
         }
-        if(e == AppError.maxRateLimitReached()){
-          print('Max limit reached!!!');
+        if (e == AppError.maxRateLimitReached()) {
+          print(DateTime.now().toString() + ': Max limit reached!!!');
         }
         add(WalletErrorEvent(e));
       }
